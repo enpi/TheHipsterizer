@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="#ff000000">
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/button_capture"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:background="@drawable/camera"
+            android:layout_gravity="center_horizontal|bottom"
+            android:focusableInTouchMode="true" />
+
+        <ImageButton
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:id="@+id/button_ChangeCamera"
+            android:background="@drawable/rotate"
+            android:layout_gravity="right|center_vertical" />
+    </LinearLayout>
+
+</LinearLayout>
