@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -19,10 +18,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -31,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     private CameraPreview mPreview;
     private PictureCallback mPicture;
     private ImageButton capture, switchCamera;
+    private Button changeFilter;
     private Context myContext;
     private LinearLayout cameraPreview;
     private boolean cameraFront = false;
@@ -104,6 +104,9 @@ public class MainActivity extends ActionBarActivity {
 
         switchCamera = (ImageButton) findViewById(R.id.button_ChangeCamera);
         switchCamera.setOnClickListener(switchCameraListener);
+
+        changeFilter = (Button) findViewById(R.id.button_ChangeFilter);
+        changeFilter.setOnClickListener(changeFilterListener);
     }
 
     OnClickListener switchCameraListener = new OnClickListener() {
@@ -118,6 +121,14 @@ public class MainActivity extends ActionBarActivity {
                 Toast toast = Toast.makeText(myContext, "Sorry, your phone has only one camera!", Toast.LENGTH_LONG);
                 toast.show();
             }
+        }
+    };
+
+    OnClickListener changeFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setActualFiler(Camera.Parameters.EFFECT_AQUA);
+            mPreview.refreshCamera(mCamera);
         }
     };
 

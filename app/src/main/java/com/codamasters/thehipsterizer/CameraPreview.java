@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 	private SurfaceHolder mHolder;
 	private Camera mCamera;
+    private String actualFiler = Parameters.EFFECT_SEPIA;
 
 	public CameraPreview(Context context, Camera camera) {
 		super(context);
@@ -52,13 +53,21 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		try {
 			mCamera.setPreviewDisplay(mHolder);
 			Camera.Parameters params = mCamera.getParameters();
-			params.setColorEffect(Parameters.EFFECT_SEPIA);
+			params.setColorEffect(actualFiler);
 			mCamera.setParameters(params);
 			mCamera.startPreview();
 		} catch (Exception e) {
 			Log.d(VIEW_LOG_TAG, "Error starting camera preview: " + e.getMessage());
 		}
 	}
+
+    public void setActualFiler(String actualFiler) {
+        this.actualFiler = actualFiler;
+    }
+
+    public String getActualFiler() {
+        return actualFiler;
+    }
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		// If your preview can change or rotate, take care of those events here.
