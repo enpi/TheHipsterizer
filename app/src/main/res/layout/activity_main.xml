@@ -22,17 +22,30 @@
         android:weightSum="1"
         android:gravity="bottom">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="418dp"
+            android:id="@+id/filtersScroll" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/filtersLayout">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtro Aqua"
+                    android:id="@+id/button_ChangeFilter" />
+            </LinearLayout>
+        </ScrollView>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/capturedImageView"
             android:layout_gravity="center_vertical" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Filtro Aqua"
-            android:id="@+id/button_ChangeFilter" />
 
         <ImageButton
             android:layout_width="50dp"
