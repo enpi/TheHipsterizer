@@ -1,7 +1,9 @@
 package com.codamasters.thehipsterizer;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import java.io.File;
@@ -184,9 +186,19 @@ public class MainActivity extends ActionBarActivity {
                     return;
                 }
                 try {
+
                     FileOutputStream fos = new FileOutputStream(pictureFile);
                     fos.write(data);
                     fos.close();
+
+                    try {
+                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        Uri uri = Uri.fromFile(pictureFile);
+                        mediaScanIntent.setData(uri);
+                        sendBroadcast(mediaScanIntent);
+                    } catch(Exception e) {
+                    }
+
 
                     showImage();
 
