@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 	private SurfaceHolder mHolder;
 	private Camera mCamera;
-    private String actualFiler = Parameters.EFFECT_SEPIA;
+    private String currentFilter = Parameters.EFFECT_SEPIA;
 
 	public CameraPreview(Context context, Camera camera) {
 		super(context);
@@ -53,7 +53,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		try {
 			mCamera.setPreviewDisplay(mHolder);
 			Camera.Parameters params = mCamera.getParameters();
-			params.setColorEffect(actualFiler);
+			params.setColorEffect(currentFilter );
 			mCamera.setParameters(params);
 			mCamera.startPreview();
 		} catch (Exception e) {
@@ -62,11 +62,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	}
 
     public void setCurrentFilter(String currentFilter) {
-        this.actualFiler = actualFiler;
+        this.currentFilter = currentFilter ;
     }
 
-    public String getActualFiler() {
-        return actualFiler;
+    public String getCurrentFilter() {
+        return currentFilter ;
     }
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
