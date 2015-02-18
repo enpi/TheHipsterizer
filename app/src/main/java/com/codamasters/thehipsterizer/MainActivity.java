@@ -1,6 +1,7 @@
 package com.codamasters.thehipsterizer;
 
 import android.content.Intent;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -237,7 +238,7 @@ public class MainActivity extends ActionBarActivity {
     };
 
     private static File getOutputMediaFile() {
-        File mediaStorageDir = new File("/sdcard/", "The Hipsterizer");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");
 
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
@@ -255,5 +256,26 @@ public class MainActivity extends ActionBarActivity {
             mCamera.release();
             mCamera = null;
         }
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,"profile.jpg");
+
+        FileOutputStream fos = null;
+        try {
+
+            fos = new FileOutputStream(mypath);
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directory.getAbsolutePath();
     }
 }
