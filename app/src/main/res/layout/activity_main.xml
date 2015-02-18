@@ -37,8 +37,13 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Filtro Sepia"
+                    android:id="@+id/button_sepiaFilter" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Filtro Aqua"
-                    android:id="@+id/button_ChangeFilter" />
+                    android:id="@+id/button_aquaFilter" />
             </LinearLayout>
         </ScrollView>
 

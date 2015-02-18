@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
     private CameraPreview mPreview;
     private PictureCallback mPicture;
     private ImageButton capture, switchCamera;
-    private Button changeFilter;
+    private Button sepiaFilter, aquaFilter;
     private ImageView capturedImage;
     private Uri fileUri;
     private Context myContext;
@@ -114,8 +114,11 @@ public class MainActivity extends ActionBarActivity {
         switchCamera = (ImageButton) findViewById(R.id.button_ChangeCamera);
         switchCamera.setOnClickListener(switchCameraListener);
 
-        changeFilter = (Button) findViewById(R.id.button_ChangeFilter);
-        changeFilter.setOnClickListener(changeFilterListener);
+        sepiaFilter = (Button) findViewById(R.id.button_sepiaFilter);
+        sepiaFilter.setOnClickListener(sepiaFilterListener);
+
+        aquaFilter = (Button) findViewById(R.id.button_aquaFilter);
+        aquaFilter.setOnClickListener(aquaFilterListener);
 
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
     }
@@ -135,7 +138,15 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    OnClickListener changeFilterListener = new OnClickListener() {
+    OnClickListener sepiaFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SEPIA);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener aquaFilterListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_AQUA);
