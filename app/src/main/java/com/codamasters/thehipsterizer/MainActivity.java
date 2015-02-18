@@ -1,5 +1,7 @@
 package com.codamasters.thehipsterizer;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import java.io.File;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
@@ -31,9 +34,12 @@ public class MainActivity extends ActionBarActivity {
     private PictureCallback mPicture;
     private ImageButton capture, switchCamera;
     private Button changeFilter;
+    private ImageView capturedImage;
+    private Uri fileUri;
     private Context myContext;
     private LinearLayout cameraPreview;
     private boolean cameraFront = false;
+    private File pictureFile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +113,8 @@ public class MainActivity extends ActionBarActivity {
 
         changeFilter = (Button) findViewById(R.id.button_ChangeFilter);
         changeFilter.setOnClickListener(changeFilterListener);
+
+        capturedImage = (ImageView) findViewById(R.id.capturedImageView);
     }
 
     OnClickListener switchCameraListener = new OnClickListener() {
@@ -170,7 +178,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                File pictureFile = getOutputMediaFile();
+                pictureFile = getOutputMediaFile();
 
                 if (pictureFile == null) {
                     return;
@@ -179,6 +187,9 @@ public class MainActivity extends ActionBarActivity {
                     FileOutputStream fos = new FileOutputStream(pictureFile);
                     fos.write(data);
                     fos.close();
+
+                    showImage();
+
                 } catch (FileNotFoundException e) {
                 } catch (IOException e) {
                 }
@@ -188,10 +199,28 @@ public class MainActivity extends ActionBarActivity {
         return picture;
     }
 
+    public void showImage(){
+        GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
+        fileUri = Uri.fromFile(pictureFile);
+        Bitmap bitmap = null;
+        try {
+            bitmap = getImageThumbnail.getThumbnail(fileUri, this );
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        capturedImage.setImageBitmap(bitmap);
+    }
+
     OnClickListener captureListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             mCamera.takePicture(null, null, mPicture);
+
         }
     };
 
