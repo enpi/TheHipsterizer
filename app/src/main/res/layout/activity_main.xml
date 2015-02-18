@@ -24,8 +24,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="418dp"
-            android:id="@+id/filtersScroll" >
+            android:layout_height="216dp"
+            android:id="@+id/filtersScroll"
+            android:layout_weight="0.92">
 
             <LinearLayout
                 android:orientation="vertical"
