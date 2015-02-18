@@ -61,7 +61,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
-    public void setActualFiler(String actualFiler) {
+    public void setCurrentFilter(String currentFilter) {
         this.actualFiler = actualFiler;
     }
 

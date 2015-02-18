@@ -127,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
     OnClickListener changeFilterListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            mPreview.setActualFiler(Camera.Parameters.EFFECT_AQUA);
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_AQUA);
             mPreview.refreshCamera(mCamera);
         }
     };
