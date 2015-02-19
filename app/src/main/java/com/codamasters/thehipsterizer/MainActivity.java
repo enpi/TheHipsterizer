@@ -52,9 +52,12 @@ public class MainActivity extends ActionBarActivity {
     private Uri fileUri;
     private Context myContext;
     private LinearLayout cameraPreview;
-    private boolean cameraFront = false;
+    private boolean cameraFront;
     private File pictureFile;
     private int sViewX, sViewY;
+    private boolean screenState;
+    private int cameraId = -1;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     private int findFrontFacingCamera() {
-        int cameraId = -1;
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
             CameraInfo info = new CameraInfo();
@@ -84,7 +86,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private int findBackFacingCamera() {
-        int cameraId = -1;
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
             CameraInfo info = new CameraInfo();
@@ -368,6 +369,7 @@ public class MainActivity extends ActionBarActivity {
 
         outState.putInt("sViewX",filtersScroll.getScrollX());
         outState.putInt("sViewY",filtersScroll.getScrollY());
+        outState.putInt("cameraId", cameraId);
         outState.putBoolean("cameraFront", cameraFront);
 
         super.onSaveInstanceState(outState);
@@ -381,13 +383,13 @@ public class MainActivity extends ActionBarActivity {
 
         sViewX = savedInstanceState.getInt("sViewX");
         sViewY = savedInstanceState.getInt("sViewY");
+        cameraId = savedInstanceState.getInt("cameraId");
         cameraFront = savedInstanceState.getBoolean("cameraFront");
 
         filtersScroll.scrollTo(sViewX, sViewY);
-        if(cameraFront==true) {
-            releaseCamera();
-            chooseCamera();
-        }
+        releaseCamera();
+        mCamera = Camera.open(cameraId);
+        mPreview.refreshCamera(mCamera);
 
     }
 }
