@@ -368,7 +368,7 @@ public class MainActivity extends ActionBarActivity {
 
         outState.putInt("sViewX",filtersScroll.getScrollX());
         outState.putInt("sViewY",filtersScroll.getScrollY());
-        outState.putBoolean("cameraFront",cameraFront);
+        outState.putBoolean("cameraFront", cameraFront);
 
         super.onSaveInstanceState(outState);
 
@@ -384,6 +384,10 @@ public class MainActivity extends ActionBarActivity {
         cameraFront = savedInstanceState.getBoolean("cameraFront");
 
         filtersScroll.scrollTo(sViewX, sViewY);
+        if(cameraFront==true) {
+            releaseCamera();
+            chooseCamera();
+        }
 
     }
 }
