@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 	private SurfaceHolder mHolder;
 	private Camera mCamera;
-    private String currentFilter = Parameters.EFFECT_SEPIA;
+    private String currentFilter = Parameters.EFFECT_NONE;
 
 	public CameraPreview(Context context, Camera camera) {
 		super(context);

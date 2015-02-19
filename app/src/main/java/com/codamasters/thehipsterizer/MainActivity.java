@@ -36,7 +36,8 @@ public class MainActivity extends ActionBarActivity {
     private CameraPreview mPreview;
     private PictureCallback mPicture;
     private ImageButton capture, switchCamera;
-    private Button sepiaFilter, aquaFilter;
+    private Button noneFilter, sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
+            posterizeFilter, negativeFilter, monoFilter, solarizeFilter;
     private ImageView capturedImage;
     private Uri fileUri;
     private Context myContext;
@@ -114,11 +115,33 @@ public class MainActivity extends ActionBarActivity {
         switchCamera = (ImageButton) findViewById(R.id.button_ChangeCamera);
         switchCamera.setOnClickListener(switchCameraListener);
 
+        noneFilter = (Button) findViewById(R.id.button_noneFilter);
+        noneFilter.setOnClickListener(noneFilterListener);
+
         sepiaFilter = (Button) findViewById(R.id.button_sepiaFilter);
         sepiaFilter.setOnClickListener(sepiaFilterListener);
 
         aquaFilter = (Button) findViewById(R.id.button_aquaFilter);
         aquaFilter.setOnClickListener(aquaFilterListener);
+
+        blackboardFilter = (Button) findViewById(R.id.button_blackboardFilter);
+        blackboardFilter.setOnClickListener(blackboardFilterListener);
+
+        whiteboardFilter = (Button) findViewById(R.id.button_whiteboardFilter);
+        whiteboardFilter.setOnClickListener(whiteboardFilterListener);
+
+        posterizeFilter = (Button) findViewById(R.id.button_posterizeFilter);
+        posterizeFilter.setOnClickListener(posterizeFilterListener);
+
+        negativeFilter = (Button) findViewById(R.id.button_negativeFilter);
+        negativeFilter.setOnClickListener(negativeFilterListener);
+
+        monoFilter = (Button) findViewById(R.id.button_monoFilter);
+        monoFilter.setOnClickListener(monoFilterListener);
+
+        solarizeFilter = (Button) findViewById(R.id.button_solarizeFilter);
+        solarizeFilter.setOnClickListener(solarizeFilterListener);
+
 
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
     }
@@ -138,6 +161,14 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
+    OnClickListener noneFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NONE);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
     OnClickListener sepiaFilterListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -150,6 +181,54 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_AQUA);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener blackboardFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_BLACKBOARD);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener whiteboardFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_WHITEBOARD);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener posterizeFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_POSTERIZE);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener negativeFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NEGATIVE);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener monoFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_MONO);
+            mPreview.refreshCamera(mCamera);
+        }
+    };
+
+    OnClickListener solarizeFilterListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SOLARIZE);
             mPreview.refreshCamera(mCamera);
         }
     };
