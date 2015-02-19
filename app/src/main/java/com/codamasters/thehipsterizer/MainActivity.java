@@ -53,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
             posterizeFilter, negativeFilter, monoFilter, solarizeFilter;
     private ImageView capturedImage;
     private Uri fileUri;
+    private String filePath;
     private Context myContext;
     private LinearLayout cameraPreview;
     private boolean cameraFront;
@@ -353,9 +354,8 @@ public class MainActivity extends ActionBarActivity {
         return picture;
     }
 
-    public void showImage(){
+    private void loadMiniImage(){
         GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
-        fileUri = Uri.fromFile(pictureFile);
         Bitmap bitmap = null;
         try {
             bitmap = getImageThumbnail.getThumbnail(fileUri, this );
@@ -392,6 +392,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         capturedImage.setImageBitmap(bitmap);
+    }
+
+    public void showImage(){
+        fileUri = Uri.fromFile(pictureFile);
+        filePath = fileUri.getPath();
+
+        loadMiniImage();
     }
 
     OnClickListener captureListener = new OnClickListener() {
@@ -432,20 +439,21 @@ public class MainActivity extends ActionBarActivity {
         outState.putInt("sViewY",filtersScroll.getScrollY());
         outState.putInt("cameraId", cameraId);
         outState.putBoolean("cameraFront", cameraFront);
+        outState.putString("filePath", filePath);
 
         super.onSaveInstanceState(outState);
 
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
         sViewX = savedInstanceState.getInt("sViewX");
         sViewY = savedInstanceState.getInt("sViewY");
         cameraId = savedInstanceState.getInt("cameraId");
         cameraFront = savedInstanceState.getBoolean("cameraFront");
+        filePath = savedInstanceState.getString("filePath");
 
         filtersScroll.scrollTo(sViewX, sViewY);
         releaseCamera();
@@ -453,6 +461,24 @@ public class MainActivity extends ActionBarActivity {
         mPicture = getPictureCallback();
         mPreview.refreshCamera(mCamera);
 
+        if (filePath != null) {
+            pictureFile = new File(filePath);
+            fileUri = Uri.fromFile(pictureFile);
+            GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
+            Bitmap bitmap = null;
+            try {
+                bitmap = getImageThumbnail.getThumbnail(fileUri, this);
+
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+            capturedImage.setImageBitmap(bitmap);
+        }
     }
 
 }
