@@ -360,24 +360,27 @@ public class MainActivity extends ActionBarActivity {
         try {
             bitmap = getImageThumbnail.getThumbnail(fileUri, this );
 
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            Matrix matrix = new Matrix();
+            int orientation = getResources().getConfiguration().orientation;
+
+            if(orientation == Configuration.ORIENTATION_PORTRAIT ) {
+                int width = bitmap.getWidth();
+                int height = bitmap.getHeight();
+                Matrix matrix = new Matrix();
 
 
-            if(!cameraFront) {
-                matrix.postRotate(90);
+                if (!cameraFront) {
+                    matrix.postRotate(90);
+                } else {
+                    matrix.postRotate(-90);
+                }
+
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+                bitmap = rotatedBitmap;
+
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
             }
-            else{
-                matrix.postRotate(-90);
-            }
-
-            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-            bitmap = rotatedBitmap;
-
-            FileOutputStream fos = new FileOutputStream(pictureFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
 
 
         } catch (FileNotFoundException e1) {
