@@ -368,6 +368,7 @@ public class MainActivity extends ActionBarActivity {
 
         outState.putInt("sViewX",filtersScroll.getScrollX());
         outState.putInt("sViewY",filtersScroll.getScrollY());
+        outState.putBoolean("cameraFront",cameraFront);
 
         super.onSaveInstanceState(outState);
 
@@ -380,6 +381,7 @@ public class MainActivity extends ActionBarActivity {
 
         sViewX = savedInstanceState.getInt("sViewX");
         sViewY = savedInstanceState.getInt("sViewY");
+        cameraFront = savedInstanceState.getBoolean("cameraFront");
 
         filtersScroll.scrollTo(sViewX, sViewY);
 
