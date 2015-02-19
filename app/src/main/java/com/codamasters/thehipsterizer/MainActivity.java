@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -329,6 +330,7 @@ public class MainActivity extends ActionBarActivity {
 
                     FileOutputStream fos = new FileOutputStream(pictureFile);
                     fos.write(data);
+
                     fos.close();
 
                     try {
@@ -357,6 +359,20 @@ public class MainActivity extends ActionBarActivity {
         Bitmap bitmap = null;
         try {
             bitmap = getImageThumbnail.getThumbnail(fileUri, this );
+
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0,width, height, matrix, true);
+            bitmap = rotatedBitmap;
+
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+
         } catch (FileNotFoundException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -427,4 +443,5 @@ public class MainActivity extends ActionBarActivity {
         mPreview.refreshCamera(mCamera);
 
     }
+
 }
