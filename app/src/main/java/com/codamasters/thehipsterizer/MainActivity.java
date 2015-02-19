@@ -362,16 +362,23 @@ public class MainActivity extends ActionBarActivity {
 
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
-
             Matrix matrix = new Matrix();
-            matrix.postRotate(90);
 
-            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0,width, height, matrix, true);
+
+            if(!cameraFront) {
+                matrix.postRotate(90);
+            }
+            else{
+                matrix.postRotate(-90);
+            }
+
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
             bitmap = rotatedBitmap;
 
             FileOutputStream fos = new FileOutputStream(pictureFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
+
 
         } catch (FileNotFoundException e1) {
             // TODO Auto-generated catch block
