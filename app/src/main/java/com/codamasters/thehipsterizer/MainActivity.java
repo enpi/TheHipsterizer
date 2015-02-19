@@ -447,6 +447,7 @@ public class MainActivity extends ActionBarActivity {
         filtersScroll.scrollTo(sViewX, sViewY);
         releaseCamera();
         mCamera = Camera.open(cameraId);
+        mPicture = getPictureCallback();
         mPreview.refreshCamera(mCamera);
 
     }
