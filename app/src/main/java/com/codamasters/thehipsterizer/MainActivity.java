@@ -1,9 +1,13 @@
 package com.codamasters.thehipsterizer;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.ContextWrapper;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -20,12 +24,17 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.Button;
 
@@ -36,6 +45,7 @@ public class MainActivity extends ActionBarActivity {
     private CameraPreview mPreview;
     private PictureCallback mPicture;
     private ImageButton capture, switchCamera;
+    private ScrollView filtersScroll;
     private Button noneFilter, sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
             posterizeFilter, negativeFilter, monoFilter, solarizeFilter;
     private ImageView capturedImage;
@@ -44,6 +54,7 @@ public class MainActivity extends ActionBarActivity {
     private LinearLayout cameraPreview;
     private boolean cameraFront = false;
     private File pictureFile;
+    private int sViewX, sViewY;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +66,7 @@ public class MainActivity extends ActionBarActivity {
         actionBar.hide();
         initialize();
     }
+
 
     private int findFrontFacingCamera() {
         int cameraId = -1;
@@ -142,8 +154,9 @@ public class MainActivity extends ActionBarActivity {
         solarizeFilter = (Button) findViewById(R.id.button_solarizeFilter);
         solarizeFilter.setOnClickListener(solarizeFilterListener);
 
-
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
+        filtersScroll = (ScrollView) findViewById(R.id.filtersScroll);
+
     }
 
     OnClickListener switchCameraListener = new OnClickListener() {
@@ -348,24 +361,27 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private String saveToInternalStorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        //---save whatever you need to persist—
 
-        FileOutputStream fos = null;
-        try {
+        outState.putInt("sViewX",filtersScroll.getScrollX());
+        outState.putInt("sViewY",filtersScroll.getScrollY());
 
-            fos = new FileOutputStream(mypath);
+        super.onSaveInstanceState(outState);
 
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return directory.getAbsolutePath();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        sViewX = savedInstanceState.getInt("sViewX");
+        sViewY = savedInstanceState.getInt("sViewY");
+
+        filtersScroll.scrollTo(sViewX, sViewY);
+
     }
 }
