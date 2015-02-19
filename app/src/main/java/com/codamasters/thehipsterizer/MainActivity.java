@@ -25,6 +25,8 @@ import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -168,6 +170,39 @@ public class MainActivity extends ActionBarActivity {
 
                 releaseCamera();
                 chooseCamera();
+
+                mCamera.stopPreview();
+
+
+                WindowManager wm = (WindowManager) myContext.getSystemService(Context.WINDOW_SERVICE);
+                Display display = wm.getDefaultDisplay();
+
+                if(display.getRotation() == Surface.ROTATION_0)
+                {
+                    mCamera.setDisplayOrientation(90);
+                }
+
+                if(display.getRotation() == Surface.ROTATION_90)
+                {
+
+                }
+
+                if(display.getRotation() == Surface.ROTATION_180)
+                {
+
+                }
+
+                if(display.getRotation() == Surface.ROTATION_270)
+                {
+
+                    mCamera.setDisplayOrientation(180);
+                }
+
+                mPreview.refreshCamera(mCamera);
+
+                mCamera.startPreview();
+
+
             } else {
                 Toast toast = Toast.makeText(myContext, "Sorry, your phone has only one camera!", Toast.LENGTH_LONG);
                 toast.show();
