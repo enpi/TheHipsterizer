@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import java.io.File;
@@ -174,6 +175,7 @@ public class MainActivity extends ActionBarActivity {
         filters.setOnClickListener(filtersListener);
 
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
+        capturedImage.setOnClickListener(capturedImageListener);
 
         filtersScroll = (ScrollView) findViewById(R.id.filtersScrollView);
         horizontalFiltersScroll = (HorizontalScrollView) findViewById(R.id.horizontalFiltersScrollView);
@@ -331,6 +333,20 @@ public class MainActivity extends ActionBarActivity {
             menuFiltersLayout.setVisibility(View.VISIBLE);
         }
 
+    };
+
+    OnClickListener capturedImageListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.fromFile(pictureFile);
+                File file = new File(uri.getPath());
+                intent.setDataAndType(Uri.fromFile(file), "image/*");
+                startActivity(intent);
+            } catch(Exception e) {
+            }
+        }
     };
 
 
