@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="7"
         android:background="#ff000000"
@@ -43,10 +43,25 @@
             android:layout_marginLeft="15dp"
             android:focusableInTouchMode="true" />
 
-        <ScrollView
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:id="@+id/button_filters"
+            android:background="@drawable/coffee" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:background="#ff000000"
+        android:id="@+id/menuFiltersLayout">
+
+        <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/filtersScroll" >
+            android:id="@+id/horizontalFiltersScrollView" >
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -115,8 +130,7 @@
                     android:id="@+id/button_aquaFilter" />
 
             </LinearLayout>
-        </ScrollView>
-
+        </HorizontalScrollView>
     </LinearLayout>
 
 </LinearLayout>

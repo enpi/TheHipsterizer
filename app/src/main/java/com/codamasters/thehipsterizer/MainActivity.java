@@ -27,6 +27,8 @@ import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,15 +49,16 @@ public class MainActivity extends ActionBarActivity {
     private Camera mCamera;
     private CameraPreview mPreview;
     private PictureCallback mPicture;
-    private ImageButton capture, switchCamera;
+    private ImageButton capture, switchCamera, filters;
     private ScrollView filtersScroll;
+    private HorizontalScrollView horizontalFiltersScroll;
     private Button noneFilter, sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
             posterizeFilter, negativeFilter, monoFilter, solarizeFilter;
     private ImageView capturedImage;
     private Uri fileUri;
     private String filePath;
     private Context myContext;
-    private LinearLayout cameraPreview;
+    private LinearLayout cameraPreview, menuFiltersLayout, buttonsLayout;
     private boolean cameraFront;
     private File pictureFile;
     private int sViewX, sViewY;
@@ -72,6 +75,14 @@ public class MainActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         initialize();
+    }
+
+    // Create menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
 
@@ -159,8 +170,19 @@ public class MainActivity extends ActionBarActivity {
         solarizeFilter = (Button) findViewById(R.id.button_solarizeFilter);
         solarizeFilter.setOnClickListener(solarizeFilterListener);
 
+        filters = (ImageButton) findViewById(R.id.button_filters);
+        filters.setOnClickListener(filtersListener);
+
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
-        filtersScroll = (ScrollView) findViewById(R.id.filtersScroll);
+
+        filtersScroll = (ScrollView) findViewById(R.id.filtersScrollView);
+        horizontalFiltersScroll = (HorizontalScrollView) findViewById(R.id.horizontalFiltersScrollView);
+        menuFiltersLayout = (LinearLayout) findViewById(R.id.menuFiltersLayout);
+        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
+
+
+        menuFiltersLayout.setVisibility(View.GONE);
+
 
     }
 
@@ -217,6 +239,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NONE);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -225,6 +249,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SEPIA);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -233,6 +259,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_AQUA);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -241,6 +269,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_BLACKBOARD);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -249,6 +279,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_WHITEBOARD);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -257,6 +289,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_POSTERIZE);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -265,6 +299,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NEGATIVE);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -273,6 +309,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_MONO);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -281,8 +319,20 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SOLARIZE);
             mPreview.refreshCamera(mCamera);
+            menuFiltersLayout.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.VISIBLE);
         }
     };
+
+    OnClickListener filtersListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            buttonsLayout.setVisibility(View.GONE);
+            menuFiltersLayout.setVisibility(View.VISIBLE);
+        }
+
+    };
+
 
     public void chooseCamera() {
         if (cameraFront) {
@@ -405,7 +455,6 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             mCamera.takePicture(null, null, mPicture);
-
         }
     };
 
@@ -435,8 +484,8 @@ public class MainActivity extends ActionBarActivity {
     {
         //---save whatever you need to persist—
 
-        outState.putInt("sViewX",filtersScroll.getScrollX());
-        outState.putInt("sViewY",filtersScroll.getScrollY());
+        //outState.putInt("sViewX",filtersScroll.getScrollX());
+        //outState.putInt("sViewY",filtersScroll.getScrollY());
         outState.putInt("cameraId", cameraId);
         outState.putBoolean("cameraFront", cameraFront);
         outState.putString("filePath", filePath);
@@ -449,13 +498,13 @@ public class MainActivity extends ActionBarActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        sViewX = savedInstanceState.getInt("sViewX");
-        sViewY = savedInstanceState.getInt("sViewY");
+        //sViewX = savedInstanceState.getInt("sViewX");
+        //sViewY = savedInstanceState.getInt("sViewY");
         cameraId = savedInstanceState.getInt("cameraId");
         cameraFront = savedInstanceState.getBoolean("cameraFront");
         filePath = savedInstanceState.getString("filePath");
 
-        filtersScroll.scrollTo(sViewX, sViewY);
+        //filtersScroll.scrollTo(sViewX, sViewY);
         releaseCamera();
         mCamera = Camera.open(cameraId);
         mPicture = getPictureCallback();

@@ -22,10 +22,48 @@
         android:weightSum="1"
         android:gravity="bottom">
 
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="60dp"
+            android:id="@+id/button_filters"
+            android:background="@drawable/coffee" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/button_capture"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:background="@drawable/camera_suprema"
+            android:layout_marginLeft="15dp"
+            android:focusableInTouchMode="true" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/capturedImageView"
+            android:layout_gravity="center_vertical" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/button_ChangeCamera"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/switch_camera" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#ff000000"
+        android:id="@+id/menuFiltersLayout">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="216dp"
-            android:id="@+id/filtersScroll"
+            android:layout_height="match_parent"
+            android:id="@+id/filtersScrollView"
             android:layout_weight="0.92">
 
             <LinearLayout
@@ -81,30 +119,6 @@
                     android:id="@+id/button_solarizeFilter" />
             </LinearLayout>
         </ScrollView>
-
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/button_capture"
-            android:layout_row="2"
-            android:layout_column="2"
-            android:background="@drawable/camera_suprema"
-            android:layout_marginLeft="15dp"
-            android:focusableInTouchMode="true" />
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/capturedImageView"
-            android:layout_gravity="center_vertical" />
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/button_ChangeCamera"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/switch_camera" />
-
     </LinearLayout>
 
 </LinearLayout>
