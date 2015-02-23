@@ -43,6 +43,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.Button;
@@ -62,7 +63,8 @@ public class MainActivity extends ActionBarActivity {
     private Uri fileUri;
     private String filePath;
     private Context myContext;
-    private LinearLayout cameraPreview, menuFiltersLayout, buttonsLayout;
+    private LinearLayout cameraPreview, menuFiltersLayout;
+    private RelativeLayout buttonsLayout;
     private boolean cameraFront;
     private File pictureFile;
     private int sViewX, sViewY;
@@ -278,7 +280,7 @@ public class MainActivity extends ActionBarActivity {
         filtersScroll = (ScrollView) findViewById(R.id.filtersScrollView);
         horizontalFiltersScroll = (HorizontalScrollView) findViewById(R.id.horizontalFiltersScrollView);
         menuFiltersLayout = (LinearLayout) findViewById(R.id.menuFiltersLayout);
-        buttonsLayout = (LinearLayout) findViewById(R.id.buttonsLayout);
+        buttonsLayout = (RelativeLayout) findViewById(R.id.buttonsLayout);
 
 
         menuFiltersLayout.setVisibility(View.GONE);
