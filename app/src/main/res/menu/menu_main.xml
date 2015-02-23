@@ -8,4 +8,10 @@
         android:icon="@drawable/switch_camera"
         android:title="@string/action_switch"
         app:showAsAction="ifRoom"  />
+    <item android:id="@+id/action_flash"
+        android:icon="@drawable/flash"
+        android:title="@string/action_flash"
+        app:showAsAction="ifRoom"  />
+
+
 </menu>
