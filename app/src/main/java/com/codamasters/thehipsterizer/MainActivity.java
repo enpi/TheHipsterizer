@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
     private final int FLASH_AUTO = 0;
     private final int FLASH_ON = 1;
     private final int FLASH_OFF = 2;
-    private int flashState;
+    private int flashState = FLASH_OFF;
 
 
 
@@ -96,8 +96,19 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        flash = menu.findItem(R.id.action_flash);
-        updateFlashIcon();
+        switch (flashState){
+            case FLASH_OFF:
+                menu.findItem(R.id.action_flash).setIcon(noflashicon);
+                return true;
+            case FLASH_ON:
+                menu.findItem(R.id.action_flash).setIcon(flashicon);
+                return true;
+            case FLASH_AUTO:
+                menu.findItem(R.id.action_flash).setIcon(autoflashicon);
+                return true;
+            default:
+                menu.findItem(R.id.action_flash).setIcon(noflashicon);
+        }
         return true;
     }
 
@@ -152,21 +163,23 @@ public class MainActivity extends ActionBarActivity {
                     toast.show();
                 }
                 return true;
+
             case R.id.action_flash:
 
-                if (flash.getIcon() == autoflashicon) {
-                    p.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                    mCamera.setParameters(p);
+                if (item.getIcon() == autoflashicon) {
+                    mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_ON);
+                    mPreview.refreshCamera(mCamera);
                     flashState = FLASH_ON;
                 }
-                else if (flash.getIcon() == flashicon) {
-                    p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    mCamera.setParameters(p);
+                else if (item.getIcon() == flashicon) {
+                    mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_OFF);
+                    mPreview.refreshCamera(mCamera);
                     flashState = FLASH_OFF;
+
                 }
-                else if(flash.getIcon() == noflashicon) {
-                    p.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
-                    mCamera.setParameters(p);
+                else if(item.getIcon() == noflashicon) {
+                    mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_AUTO);
+                    mPreview.refreshCamera(mCamera);
                     flashState = FLASH_AUTO;
                 }
                 invalidateOptionsMenu();
@@ -175,25 +188,6 @@ public class MainActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        updateFlashIcon();
-        return true;
-    }
-
-    private void updateFlashIcon(){
-        switch(flashState){
-            case FLASH_AUTO:
-                flash.setIcon(R.drawable.autoflash);
-            case FLASH_ON:
-                flash.setIcon(R.drawable.flash);
-            case FLASH_OFF:
-                flash.setIcon(R.drawable.noflash);
-        }
-    }
-
 
     private int findFrontFacingCamera() {
         int numberOfCameras = Camera.getNumberOfCameras();
@@ -292,7 +286,6 @@ public class MainActivity extends ActionBarActivity {
         autoflashicon = getResources().getDrawable(R.drawable.autoflash);
         flashicon = getResources().getDrawable(R.drawable.flash);
         noflashicon = getResources().getDrawable(R.drawable.noflash);
-        flashState = FLASH_AUTO;
 
 
     }

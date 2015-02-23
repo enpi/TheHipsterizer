@@ -16,6 +16,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	private SurfaceHolder mHolder;
 	private Camera mCamera;
     private String currentFilter = Parameters.EFFECT_NONE;
+    private String currentFlash = Parameters.FLASH_MODE_OFF;
     private Context context;
     boolean isPreviewRunning;
 
@@ -63,8 +64,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		try {
 			mCamera.setPreviewDisplay(mHolder);
 			Camera.Parameters params = mCamera.getParameters();
-			params.setColorEffect(currentFilter );
-			mCamera.setParameters(params);
+			params.setColorEffect(currentFilter);
+            params.setFlashMode(currentFlash);
+
+            mCamera.setParameters(params);
 			mCamera.startPreview();
             isPreviewRunning = true;
 		} catch (Exception e) {
@@ -124,7 +127,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	}
 
-	@Override
+    public void setCurrentFlash(String currentFlash) {
+        this.currentFlash = currentFlash;
+    }
+
+
+    @Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		// mCamera.release();
