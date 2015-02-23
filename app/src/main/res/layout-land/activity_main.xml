@@ -35,8 +35,7 @@
             android:id="@+id/button_capture"
             android:layout_row="2"
             android:layout_column="2"
-            android:background="@drawable/camera_suprema"
-            android:layout_marginLeft="15dp"
+            android:background="@drawable/camera"
             android:focusableInTouchMode="true" />
 
         <ImageView
@@ -45,12 +44,6 @@
             android:id="@+id/capturedImageView"
             android:layout_gravity="center_vertical" />
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/button_ChangeCamera"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/switch_camera" />
 
     </LinearLayout>
 

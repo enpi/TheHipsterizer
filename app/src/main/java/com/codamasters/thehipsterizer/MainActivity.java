@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
     private Camera mCamera;
     private CameraPreview mPreview;
     private PictureCallback mPicture;
-    private ImageButton capture, switchCamera, filters;
+    private ImageButton capture, filters;
     private ScrollView filtersScroll;
     private HorizontalScrollView horizontalFiltersScroll;
     private Button noneFilter, sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
@@ -74,7 +75,9 @@ public class MainActivity extends ActionBarActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         myContext = this;
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        //actionBar.hide();
         initialize();
     }
 
@@ -84,6 +87,60 @@ public class MainActivity extends ActionBarActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    // Action Bar listener
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_switch:
+                int camerasNumber = Camera.getNumberOfCameras();
+                if (camerasNumber > 1) {
+
+                    releaseCamera();
+                    chooseCamera();
+
+                    mCamera.stopPreview();
+
+
+                    WindowManager wm = (WindowManager) myContext.getSystemService(Context.WINDOW_SERVICE);
+                    Display display = wm.getDefaultDisplay();
+
+                    if(display.getRotation() == Surface.ROTATION_0)
+                    {
+                        mCamera.setDisplayOrientation(90);
+                    }
+
+                    if(display.getRotation() == Surface.ROTATION_90)
+                    {
+
+                    }
+
+                    if(display.getRotation() == Surface.ROTATION_180)
+                    {
+
+                    }
+
+                    if(display.getRotation() == Surface.ROTATION_270)
+                    {
+
+                        mCamera.setDisplayOrientation(180);
+                    }
+
+                    mPreview.refreshCamera(mCamera);
+
+                    mCamera.startPreview();
+
+
+                } else {
+                    Toast toast = Toast.makeText(myContext, "Sorry, your phone has only one camera!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -125,7 +182,6 @@ public class MainActivity extends ActionBarActivity {
         if (mCamera == null) {
             if (findFrontFacingCamera() < 0) {
                 Toast.makeText(this, "No front facing camera found.", Toast.LENGTH_LONG).show();
-                switchCamera.setVisibility(View.GONE);
             }
             mCamera = Camera.open(findBackFacingCamera());
             mPicture = getPictureCallback();
@@ -140,9 +196,6 @@ public class MainActivity extends ActionBarActivity {
 
         capture = (ImageButton) findViewById(R.id.button_capture);
         capture.setOnClickListener(captureListener);
-
-        switchCamera = (ImageButton) findViewById(R.id.button_ChangeCamera);
-        switchCamera.setOnClickListener(switchCameraListener);
 
         noneFilter = (Button) findViewById(R.id.button_noneFilter);
         noneFilter.setOnClickListener(noneFilterListener);
@@ -187,54 +240,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
-
-    OnClickListener switchCameraListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int camerasNumber = Camera.getNumberOfCameras();
-            if (camerasNumber > 1) {
-
-                releaseCamera();
-                chooseCamera();
-
-                mCamera.stopPreview();
-
-
-                WindowManager wm = (WindowManager) myContext.getSystemService(Context.WINDOW_SERVICE);
-                Display display = wm.getDefaultDisplay();
-
-                if(display.getRotation() == Surface.ROTATION_0)
-                {
-                    mCamera.setDisplayOrientation(90);
-                }
-
-                if(display.getRotation() == Surface.ROTATION_90)
-                {
-
-                }
-
-                if(display.getRotation() == Surface.ROTATION_180)
-                {
-
-                }
-
-                if(display.getRotation() == Surface.ROTATION_270)
-                {
-
-                    mCamera.setDisplayOrientation(180);
-                }
-
-                mPreview.refreshCamera(mCamera);
-
-                mCamera.startPreview();
-
-
-            } else {
-                Toast toast = Toast.makeText(myContext, "Sorry, your phone has only one camera!", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }
-    };
 
     OnClickListener noneFilterListener = new OnClickListener() {
         @Override
