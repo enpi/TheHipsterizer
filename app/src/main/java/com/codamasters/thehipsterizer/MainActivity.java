@@ -122,6 +122,7 @@ public class MainActivity extends ActionBarActivity implements Camera.PreviewCal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         myContext = this;
@@ -263,9 +264,10 @@ public class MainActivity extends ActionBarActivity implements Camera.PreviewCal
 
 
         cameraPreview = (LinearLayout) findViewById(R.id.camera_preview);
-        mPreview = new CameraPreview(myContext, mCamera);
-        cameraPreview.addView(mPreview);
+        mPreview = new CameraPreview(myContext, this, true);
         mDraw = new Visualization(this);
+
+        cameraPreview.addView(mPreview);
         cameraPreview.addView(mDraw);
 
         capture = (ImageButton) findViewById(R.id.button_capture);
