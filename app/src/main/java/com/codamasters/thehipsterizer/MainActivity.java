@@ -6,7 +6,13 @@ import android.content.Intent;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ImageFormat;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +20,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -90,6 +98,7 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         //actionBar.hide();
+        mPreview.setWillNotDraw(false);
         initialize();
     }
 
@@ -376,6 +385,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SOLARIZE);
+
             mPreview.refreshCamera(mCamera);
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
@@ -600,6 +610,65 @@ public class MainActivity extends ActionBarActivity {
 
             capturedImage.setImageBitmap(bitmap);
         }
+    }
+
+    // Cosas nuevas
+
+    public static Bitmap applyGaussianBlur(Bitmap src) {
+        //set gaussian blur configuration
+        double[][] GaussianBlurConfig = new double[][] {
+                { 1, 2, 1 },
+                { 2, 4, 2 },
+                { 1, 2, 1 }
+        };
+        // create instance of Convolution matrix
+        ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
+        // Apply Configuration
+        convMatrix.applyConfig(GaussianBlurConfig);
+        convMatrix.Factor = 16;
+        convMatrix.Offset = 0;
+        //return out put bitmap
+        return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+    }
+
+    private byte[] cameraFrame;
+    private byte[] buffer;
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        cameraFrame = data;
+        camera.addCallbackBuffer(data); //actually, addCallbackBuffer(buffer) has to be called once sowhere before you call mCamera.startPreview();
+    }
+
+
+    private ByteArrayOutputStream baos;
+    private YuvImage yuvimage;
+    private byte[] jdata;
+    private Bitmap bmp;
+    private Paint paint;
+
+    @Override //from SurfaceView
+    public void onDraw(Canvas canvas) {
+
+        // Convert to JPG
+        Camera.Size previewSize = camera.getParameters().getPreviewSize();
+        YuvImage yuvimage=new YuvImage(data, ImageFormat.NV21, previewSize.width, previewSize.height, null);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        yuvimage.compressToJpeg(new Rect(0, 0, previewSize.width, previewSize.height), 80, baos);
+        byte[] jdata = baos.toByteArray();
+
+        // Convert to Bitmap
+        Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
+
+
+        baos = new ByteArrayOutputStream();
+        yuvimage=new YuvImage(cameraFrame, ImageFormat.NV21, (int)mPreview.getX(), (int)mPreview.getY(), null);
+
+        yuvimage.compressToJpeg(new Rect(0, 0, mPreview.getWidth(), mPreview.getHeight()), 80, baos); //width and height of the screen
+        jdata = baos.toByteArray();
+
+        bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
+
+        canvas.drawBitmap(bmp , 0, 0, paint);
     }
 
 }
