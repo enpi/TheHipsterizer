@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
@@ -19,6 +20,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private String currentFlash = Parameters.FLASH_MODE_OFF;
     private Context context;
     boolean isPreviewRunning;
+
+    Camera.PreviewCallback previewCallback;
+    boolean hidden;
 
 	public CameraPreview(Context context, Camera camera) {
 		super(context);
@@ -138,4 +142,52 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		// mCamera.release();
 
 	}
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width,height;
+        if( hidden ) {
+            // make the view small, effectively hiding it
+            width=height=2;
+        } else {
+            // We purposely disregard child measurements so that the SurfaceView will center the camera
+            // preview instead of stretching it.
+            width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+            height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+        }
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        if( mCamera == null )
+            return;
+
+        if (changed && getChildCount() > 0) {
+            final View child = getChildAt(0);
+
+            final int width = r - l;
+            final int height = b - t;
+
+            Camera.Size size = mCamera.getParameters().getPreviewSize();
+            int previewWidth = size.width;
+            int previewHeight = size.height;
+
+            // Center the child SurfaceView within the parent.
+            if (width * previewHeight > height * previewWidth) {
+                final int scaledChildWidth = previewWidth * height / previewHeight;
+                l = (width - scaledChildWidth) / 2;
+                t = 0;
+                r = (width + scaledChildWidth) / 2;
+                b = height;
+            } else {
+                final int scaledChildHeight = previewHeight * width / previewWidth;
+                l = 0;
+                t = (height - scaledChildHeight) / 2;
+                r = width;
+                b = (height + scaledChildHeight) / 2;
+            }
+            child.layout(l,t,r,b);
+        }
+    }
 }
