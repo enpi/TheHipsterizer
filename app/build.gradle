@@ -22,6 +22,4 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile files('libs/BoofCV-android-0.18.jar')
-    compile files('libs/BoofCV-ip-0.18.jar')
 }

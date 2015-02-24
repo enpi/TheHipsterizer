@@ -10,112 +10,39 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 
-public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
-    private final String TAG = "CameraPreview";
-
-    SurfaceView mSurfaceView;
-    SurfaceHolder mHolder;
-    Camera mCamera;
-    Camera.PreviewCallback previewCallback;
-    boolean hidden;
-
-    boolean isPreviewRunning;
-    private Context context;
+public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
+	private SurfaceHolder mHolder;
+	private Camera mCamera;
     private String currentFilter = Parameters.EFFECT_NONE;
     private String currentFlash = Parameters.FLASH_MODE_OFF;
+    private Context context;
+    boolean isPreviewRunning;
 
-    public CameraPreview(Context context, Camera.PreviewCallback previewCallback, boolean hidden ) {
-        super(context);
-        this.previewCallback = previewCallback;
-        this.hidden = hidden;
+	public CameraPreview(Context context, Camera camera) {
+		super(context);
+		mCamera = camera;
+		mHolder = getHolder();
+		mHolder.addCallback(this);
+        isPreviewRunning = false;
         this.context = context;
+		// deprecated setting, but required on Android versions prior to 3.0
+		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+	}
 
-        mSurfaceView = new SurfaceView(context);
-        addView(mSurfaceView);
-
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
-        mHolder = mSurfaceView.getHolder();
-        mHolder.addCallback(this);
-        // deprecated setting, but required on Android versions prior to 3.0
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-    }
-
-    public void setCamera(Camera camera) {
-        mCamera = camera;
-        if (mCamera != null) {
-            requestLayout();
-        }
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width,height;
-        if( hidden ) {
-            // make the view small, effectively hiding it
-            width=height=2;
-        } else {
-            // We purposely disregard child measurements so that the SurfaceView will center the camera
-            // preview instead of stretching it.
-            width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-            height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-        }
-        setMeasuredDimension(width, height);
-    }
-
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        if (mCamera == null) {
-            Log.d(TAG, "Camera is null.  Bug else where in code. ");
-            return;
-        }
-
-        try {
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.setPreviewCallback(previewCallback);
-            mCamera.startPreview();
-        } catch (Exception e){
-            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-        }
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if( mCamera == null )
-            return;
-
-        if (changed && getChildCount() > 0) {
-            final View child = getChildAt(0);
-
-            final int width = r - l;
-            final int height = b - t;
-
-            Camera.Size size = mCamera.getParameters().getPreviewSize();
-            int previewWidth = size.width;
-            int previewHeight = size.height;
-
-            // Center the child SurfaceView within the parent.
-            if (width * previewHeight > height * previewWidth) {
-                final int scaledChildWidth = previewWidth * height / previewHeight;
-                l = (width - scaledChildWidth) / 2;
-                t = 0;
-                r = (width + scaledChildWidth) / 2;
-                b = height;
-            } else {
-                final int scaledChildHeight = previewHeight * width / previewWidth;
-                l = 0;
-                t = (height - scaledChildHeight) / 2;
-                r = width;
-                b = (height + scaledChildHeight) / 2;
-            }
-            child.layout(l,t,r,b);
-        }
-    }
+	public void surfaceCreated(SurfaceHolder holder) {
+		try {
+			// create the surface and start camera preview
+			if (mCamera == null) {
+				mCamera.setPreviewDisplay(holder);
+				mCamera.startPreview();
+                isPreviewRunning = true;
+			}
+		} catch (IOException e) {
+			Log.d(VIEW_LOG_TAG, "Error setting camera preview: " + e.getMessage());
+		}
+	}
 
 	public void refreshCamera(Camera camera) {
 		if (mHolder.getSurface() == null) {
@@ -194,6 +121,11 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
     }
 
+	public void setCamera(Camera camera) {
+		//method to set a camera instance
+		mCamera = camera;
+
+	}
 
     public void setCurrentFlash(String currentFlash) {
         this.currentFlash = currentFlash;
@@ -206,5 +138,4 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 		// mCamera.release();
 
 	}
-
 }
