@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -84,7 +85,8 @@ public class MainActivity extends ActionBarActivity {
     private final int FLASH_ON = 1;
     private final int FLASH_OFF = 2;
     private int flashState = FLASH_OFF;
-
+    static final int REQ_CODE_PICK_IMAGE = 1;
+    private Bitmap galleryImage;
 
 
 
@@ -629,6 +631,39 @@ public class MainActivity extends ActionBarActivity {
         convMatrix.Offset = 0;
         //return out put bitmap
         return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+    }
+
+    public void pickImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case REQ_CODE_PICK_IMAGE:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                    Cursor cursor = getContentResolver().query(
+                            selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+
+                    galleryImage = BitmapFactory.decodeFile(filePath);
+                }
+        }
     }
 
 }
