@@ -4,18 +4,26 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import java.io.File;
 
 /**
  * Created by julio on 26/02/15.
  */
 public class FilterActivity extends ActionBarActivity {
 
+    private ImageView imgView;
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
 
@@ -27,6 +35,8 @@ public class FilterActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+
+        //pickImage();
     }
 
     public static Bitmap applyGaussianBlur(Bitmap src) {
@@ -75,6 +85,8 @@ public class FilterActivity extends ActionBarActivity {
 
 
                     galleryImage = BitmapFactory.decodeFile(filePath);
+                    imgView = (ImageView)findViewById(R.id.image_preview);
+                    imgView.setImageBitmap(galleryImage);
                 }
         }
     }
