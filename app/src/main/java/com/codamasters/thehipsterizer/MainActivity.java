@@ -631,44 +631,4 @@ public class MainActivity extends ActionBarActivity {
         return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
     }
 
-    private byte[] cameraFrame;
-    private byte[] buffer;
-    @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        cameraFrame = data;
-        camera.addCallbackBuffer(data); //actually, addCallbackBuffer(buffer) has to be called once sowhere before you call mCamera.startPreview();
-    }
-
-
-    private ByteArrayOutputStream baos;
-    private YuvImage yuvimage;
-    private byte[] jdata;
-    private Bitmap bmp;
-    private Paint paint;
-
-    @Override //from SurfaceView
-    public void onDraw(Canvas canvas) {
-
-        // Convert to JPG
-        Camera.Size previewSize = camera.getParameters().getPreviewSize();
-        YuvImage yuvimage=new YuvImage(data, ImageFormat.NV21, previewSize.width, previewSize.height, null);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        yuvimage.compressToJpeg(new Rect(0, 0, previewSize.width, previewSize.height), 80, baos);
-        byte[] jdata = baos.toByteArray();
-
-        // Convert to Bitmap
-        Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
-
-
-        baos = new ByteArrayOutputStream();
-        yuvimage=new YuvImage(cameraFrame, ImageFormat.NV21, (int)mPreview.getX(), (int)mPreview.getY(), null);
-
-        yuvimage.compressToJpeg(new Rect(0, 0, mPreview.getWidth(), mPreview.getHeight()), 80, baos); //width and height of the screen
-        jdata = baos.toByteArray();
-
-        bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
-
-        canvas.drawBitmap(bmp , 0, 0, paint);
-    }
-
 }
