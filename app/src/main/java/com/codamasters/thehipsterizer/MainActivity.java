@@ -26,17 +26,12 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         //actionBar.hide();
-        cameraMode = (ImageButton) findViewById(R.id.cameraMode);
-        cameraMode.setOnClickListener(cameraModeListener);
     }
 
-    OnClickListener cameraModeListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent i = new Intent("com.codamasters.thehipsterizer.CameraActivity");
-            startActivity(i);
-        }
-    };
+    public void openCamera(View view){
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
+    }
 
 
 }

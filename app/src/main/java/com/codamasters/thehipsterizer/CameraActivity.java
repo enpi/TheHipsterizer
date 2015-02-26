@@ -86,8 +86,8 @@ public class CameraActivity extends ActionBarActivity {
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         //actionBar.hide();
-        mPreview.setWillNotDraw(false);
         initialize();
+        mPreview.setWillNotDraw(false);
     }
 
     // Create menu
