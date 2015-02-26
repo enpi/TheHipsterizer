@@ -1,5 +1,6 @@
 package com.codamasters.thehipsterizer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Created by julio on 26/02/15.
@@ -29,29 +32,21 @@ public class FilterActivity extends ActionBarActivity {
     private ImageView imgView;
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
-    private Button botonazo;
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+        imgView = (ImageView)findViewById(R.id.image_preview);
 
-        //pickImage();
-        botonazo = (Button) findViewById(R.id.botonazo);
-        botonazo.setOnClickListener(botonazoListener);
+        pickImage();
     }
-
-
-    View.OnClickListener botonazoListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            pickImage();
-        }
-    };
 
 
     public static Bitmap applyGaussianBlur(Bitmap src) {
@@ -86,22 +81,17 @@ public class FilterActivity extends ActionBarActivity {
 
         switch(requestCode) {
             case REQ_CODE_PICK_IMAGE:
-                if(resultCode == RESULT_OK){
+            if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                    Cursor cursor = getContentResolver().query(
-                            selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String filePath = cursor.getString(columnIndex);
-                    cursor.close();
-
-
-                    galleryImage = BitmapFactory.decodeFile(filePath);
-                    imgView = (ImageView)findViewById(R.id.image_preview);
+                InputStream imageStream = null;
+                try {
+                    imageStream = context.getContentResolver().openInputStream(selectedImage);
+                    galleryImage = BitmapFactory.decodeStream(imageStream);
                     imgView.setImageBitmap(galleryImage);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 }
         }
     }
