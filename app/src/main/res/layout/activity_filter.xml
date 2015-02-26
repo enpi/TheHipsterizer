@@ -93,7 +93,6 @@
         android:layout_height="wrap_content"
         android:text="BOTONAZO"
         android:id="@+id/botonazo"
-        android:onClick="pickImage"
         android:layout_below="@+id/horizontalFiltersScrollView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
