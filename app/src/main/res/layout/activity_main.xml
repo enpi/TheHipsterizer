@@ -1,133 +1,37 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff832e">
 
-    <LinearLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="7"
-        android:layout_gravity="center"
-        android:background="#ff000000"
-        android:id="@+id/buttonsLayout">
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/capturedImageView"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_vertical" />
-
-
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/button_capture"
-            android:layout_row="2"
-            android:layout_column="2"
-            android:background="@drawable/camera"
-            android:layout_centerInParent="true"
-            android:focusableInTouchMode="true" />
-
-        <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/button_filters"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/coffee" />
-
-    </RelativeLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+    <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="7"
-        android:background="#ff000000"
-        android:id="@+id/menuFiltersLayout">
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraMode"
+        android:layout_marginTop="174dp"
+        android:background="@drawable/abc_ic_menu_selectall_mtrl_alpha"
+        android:layout_below="@+id/titleIntro"
+        android:layout_centerHorizontal="true"
+        android:clickable="false" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/horizontalFiltersScrollView" >
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/galleryMode"
+        android:layout_marginTop="49dp"
+        android:background="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:layout_below="@+id/cameraMode"
+        android:layout_alignLeft="@+id/cameraMode"
+        android:layout_alignStart="@+id/cameraMode" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="15dp"
-                android:id="@+id/filtersLayout"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:transitionGroup="false"
-                android:touchscreenBlocksFocus="true"
-                android:nestedScrollingEnabled="false">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Mono"
-                    android:id="@+id/button_monoFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Negativo"
-                    android:id="@+id/button_negativeFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Solarize"
-                    android:id="@+id/button_solarizeFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Posterize"
-                    android:id="@+id/button_posterizeFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro WhiteBoard"
-                    android:id="@+id/button_whiteboardFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro BlackBoard"
-                    android:id="@+id/button_blackboardFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin filtro"
-                    android:id="@+id/button_noneFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Sepia"
-                    android:id="@+id/button_sepiaFilter" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Aqua"
-                    android:id="@+id/button_aquaFilter" />
-
-            </LinearLayout>
-        </HorizontalScrollView>
-    </LinearLayout>
-
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleIntro"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:background="@color/accent_material_dark"
+        android:autoText="false"
+        android:text="Er hipsterizer" />
+</RelativeLayout>
