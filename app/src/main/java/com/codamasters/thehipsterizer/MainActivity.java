@@ -33,5 +33,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void openFilter(View view){
+        Intent intent = new Intent(this, FilterActivity.class);
+        startActivity(intent);
+    }
+
 
 }

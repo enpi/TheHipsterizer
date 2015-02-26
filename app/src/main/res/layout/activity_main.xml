@@ -21,6 +21,7 @@
         android:id="@+id/galleryMode"
         android:layout_marginTop="49dp"
         android:background="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:onClick="openFilter"
         android:layout_below="@+id/cameraMode"
         android:layout_alignLeft="@+id/cameraMode"
         android:layout_alignStart="@+id/cameraMode" />
