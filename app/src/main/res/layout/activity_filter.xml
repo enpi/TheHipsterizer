@@ -11,13 +11,18 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_below="@+id/horizontalFiltersScrollView">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/horizontalFiltersScrollView">
     </ImageView>
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/horizontalFiltersScrollView" >
+        android:id="@+id/horizontalFiltersScrollView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="horizontal"
