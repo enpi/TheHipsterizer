@@ -9,18 +9,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
     </LinearLayout>
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_weight="7"
         android:layout_gravity="center"
         android:background="#ff000000"
         android:alpha="0.5"
+        android:layout_marginTop="440dp"
         android:id="@+id/buttonsLayout">
 
         <ImageView
@@ -52,16 +53,17 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_weight="7"
         android:background="#ff000000"
+        android:layout_marginTop="440dp"
         android:alpha="0.5"
         android:id="@+id/menuFiltersLayout">
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/horizontalFiltersScrollView" >
+            android:id="@+id/horizontalFiltersScrollView">
 
             <LinearLayout
                 android:orientation="horizontal"

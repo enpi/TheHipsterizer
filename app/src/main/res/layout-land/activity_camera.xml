@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:clipChildren="false">
 
     <LinearLayout
         android:id="@+id/camera_preview"
@@ -19,6 +20,8 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:background="#ff000000"
+        android:alpha="0.5"
+        android:layout_marginLeft="520dp"
         android:weightSum="1" >
 
         <ImageButton
@@ -52,6 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="#ff000000"
+        android:alpha="0.5"
+        android:layout_marginLeft="520dp"
         android:id="@+id/menuFiltersLayout">
         <ScrollView
             android:layout_width="match_parent"
@@ -114,4 +119,4 @@
         </ScrollView>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
