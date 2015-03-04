@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:clipChildren="false">
 
     <LinearLayout
         android:id="@+id/camera_preview"
@@ -15,10 +16,11 @@
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
         android:layout_weight="7"
         android:layout_gravity="center"
         android:background="#ff000000"
+        android:alpha="0.5"
         android:id="@+id/buttonsLayout">
 
         <ImageView
@@ -50,9 +52,10 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
         android:layout_weight="7"
         android:background="#ff000000"
+        android:alpha="0.5"
         android:id="@+id/menuFiltersLayout">
 
         <HorizontalScrollView
@@ -130,4 +133,4 @@
         </HorizontalScrollView>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

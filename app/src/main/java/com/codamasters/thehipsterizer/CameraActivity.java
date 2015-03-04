@@ -84,6 +84,8 @@ public class CameraActivity extends ActionBarActivity {
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         //actionBar.hide();
+        RelativeLayout buttonsLayout = (RelativeLayout)findViewById(R.id.buttonsLayout);
+        buttonsLayout.bringToFront();
         initialize();
         mPreview.setWillNotDraw(false);
     }

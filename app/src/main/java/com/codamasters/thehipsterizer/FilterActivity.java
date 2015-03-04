@@ -29,6 +29,8 @@ import java.io.InputStream;
  */
 public class FilterActivity extends ActionBarActivity {
 
+
+
     private ImageView imgView;
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
