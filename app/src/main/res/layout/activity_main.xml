@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffff832e">
+    android:background="@drawable/bg">
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -33,7 +33,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="51dp"
-        android:background="@color/accent_material_dark"
         android:autoText="false"
-        android:text="Er hipsterizer" />
+        android:text="The Hipsterizer"
+        android:textSize="50dp"
+        android:textColor="@color/abc_search_url_text_normal" />
 </RelativeLayout>
