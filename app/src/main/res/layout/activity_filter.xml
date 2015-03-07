@@ -34,7 +34,8 @@
             android:focusableInTouchMode="false"
             android:transitionGroup="false"
             android:touchscreenBlocksFocus="true"
-            android:nestedScrollingEnabled="false">
+            android:nestedScrollingEnabled="false"
+            android:background ="#00676767">
 
             <Button
                 android:layout_width="wrap_content"
