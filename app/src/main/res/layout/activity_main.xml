@@ -8,23 +8,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cameraMode"
-        android:layout_marginTop="174dp"
-        android:background="@drawable/abc_ic_menu_selectall_mtrl_alpha"
-        android:layout_below="@+id/titleIntro"
-        android:layout_centerHorizontal="true"
+        android:background="@drawable/camera_init"
         android:onClick="openCamera"
-        android:clickable="false" />
+        android:clickable="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/galleryMode"
-        android:layout_marginTop="49dp"
-        android:background="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:layout_marginTop="43dp"
+        android:background="@drawable/gallery"
         android:onClick="openFilter"
         android:layout_below="@+id/cameraMode"
-        android:layout_alignLeft="@+id/cameraMode"
-        android:layout_alignStart="@+id/cameraMode" />
+        android:layout_alignRight="@+id/cameraMode"
+        android:layout_alignEnd="@+id/cameraMode" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
@@ -45,7 +46,6 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class FilterActivity extends ActionBarActivity implements GLSurfaceView.Renderer{
 
-    private ImageView imgView;
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
     private Context context;
@@ -58,7 +58,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
     private int mImageWidth;
     private int mImageHeight;
     private boolean mInitialized = false;
-    int mCurrentEffect;
+    private int mCurrentEffect;
 
     public void setCurrentEffect(int effect) {
         mCurrentEffect = effect;
@@ -86,6 +86,8 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
 
 
         pickImage();
+
+
     }
 
 
@@ -127,7 +129,6 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                 try {
                     imageStream = context.getContentResolver().openInputStream(selectedImage);
                     galleryImage = BitmapFactory.decodeStream(imageStream);
-                    imgView.setImageBitmap(galleryImage);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -152,6 +153,129 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         GLToolbox.initTexParams();
     }
 
+    public void filterNegative(View v) {
+        setCurrentEffect(R.id.negative);
+        mEffectView.requestRender();
+    }
+
+    public void filterAutoFix(View v) {
+        setCurrentEffect(R.id.autofix);
+        mEffectView.requestRender();
+    }
+
+
+    public void filterBw(View v) {
+        setCurrentEffect(R.id.bw);
+        mEffectView.requestRender();
+    }
+
+    public void filterBrightness(View v) {
+        setCurrentEffect(R.id.brightness);
+        mEffectView.requestRender();
+    }
+
+    public void filterContrast(View v) {
+        setCurrentEffect(R.id.contrast);
+        mEffectView.requestRender();
+    }
+
+    public void filterCrossprocess(View v) {
+        setCurrentEffect(R.id.crossprocess);
+        mEffectView.requestRender();
+    }
+
+    public void filterDocumentary(View v) {
+        setCurrentEffect(R.id.documentary);
+        mEffectView.requestRender();
+    }
+
+    public void filterDuotone(View v) {
+        setCurrentEffect(R.id.duotone);
+        mEffectView.requestRender();
+    }
+
+    public void filterFillLight(View v) {
+        setCurrentEffect(R.id.filllight);
+        mEffectView.requestRender();
+    }
+
+    public void filterFishEye(View v) {
+        setCurrentEffect(R.id.fisheye);
+        mEffectView.requestRender();
+    }
+
+    public void filterFlipvert(View v) {
+        setCurrentEffect(R.id.flipvert);
+        mEffectView.requestRender();
+    }
+
+    public void filterFliphor(View v) {
+        setCurrentEffect(R.id.fliphor);
+        mEffectView.requestRender();
+    }
+
+    public void filterGrain(View v) {
+        setCurrentEffect(R.id.grain);
+        mEffectView.requestRender();
+    }
+
+    public void filterGrayscale(View v) {
+        setCurrentEffect(R.id.grayscale);
+        mEffectView.requestRender();
+    }
+
+
+    public void filterLomoish(View v) {
+        setCurrentEffect(R.id.lomoish);
+        mEffectView.requestRender();
+    }
+
+
+    public void filterPosterize(View v) {
+        setCurrentEffect(R.id.posterize);
+        mEffectView.requestRender();
+    }
+
+
+    public void filterRotate(View v) {
+        setCurrentEffect(R.id.rotate);
+        mEffectView.requestRender();
+    }
+
+
+    public void filterSaturate(View v) {
+        setCurrentEffect(R.id.saturate);
+        mEffectView.requestRender();
+    }
+
+
+    public void filterSepia(View v) {
+        setCurrentEffect(R.id.sepia);
+        mEffectView.requestRender();
+    }
+
+    public void filterSharpen(View v) {
+        setCurrentEffect(R.id.sharpen);
+        mEffectView.requestRender();
+    }
+
+    public void filterTemperature(View v) {
+        setCurrentEffect(R.id.temperature);
+        mEffectView.requestRender();
+    }
+
+    public void filterTint(View v) {
+        setCurrentEffect(R.id.tint);
+        mEffectView.requestRender();
+    }
+
+    public void filterVignette(View v) {
+        setCurrentEffect(R.id.vignette);
+        mEffectView.requestRender();
+    }
+
+
+
     private void initEffect() {
         EffectFactory effectFactory = mEffectContext.getFactory();
         if (mEffect != null) {
@@ -169,7 +293,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                 mEffect = effectFactory.createEffect(
                         EffectFactory.EFFECT_NEGATIVE);
                 break;
-            /*
+
             case R.id.autofix:
                 mEffect = effectFactory.createEffect(
                         EffectFactory.EFFECT_AUTOFIX);
@@ -296,7 +420,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                         EffectFactory.EFFECT_VIGNETTE);
                 mEffect.setParameter("scale", .5f);
                 break;
-            */
+
             default:
                 break;
 
@@ -316,14 +440,6 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
             // render the result of applyEffect()
             mTexRenderer.renderTexture(mTextures[0]);
         }
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        setCurrentEffect(item.getItemId());
-        mEffectView.requestRender();
-        return true;
     }
 
     @Override

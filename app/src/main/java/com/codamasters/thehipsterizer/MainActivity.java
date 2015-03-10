@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
-        //actionBar.hide();
+        actionBar.hide();
 
         TextView tv = (TextView) findViewById(R.id.titleIntro);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/pacifico.ttf");

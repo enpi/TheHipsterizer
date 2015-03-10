@@ -40,56 +40,163 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro Mono"
-                android:id="@+id/button_monoFilter" />
+                android:text="Auto Fix"
+                android:onClick="filterAutoFix"
+                android:id="@+id/autofix" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Filtro Negativo"
+                android:onClick="filterNegative"
                 android:id="@+id/negative" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro Solarize"
-                android:id="@+id/button_solarizeFilter" />
+                android:text="Filtro Mono"
+                android:onClick="filterBw"
+                android:id="@+id/bw" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro Posterize"
-                android:id="@+id/button_posterizeFilter" />
+                android:text="Brightness"
+                android:onClick="filterBrightness"
+                android:id="@+id/brightness" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro WhiteBoard"
-                android:id="@+id/button_whiteboardFilter" />
+                android:text="Contrast"
+                android:onClick="filterContrast"
+                android:id="@+id/contrast" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro BlackBoard"
-                android:id="@+id/button_blackboardFilter" />
+                android:text="Crossprocess"
+                android:onClick="filterCrossprocess"
+                android:id="@+id/crossprocess" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sin filtro"
-                android:id="@+id/button_noneFilter" />
+                android:text="Documentary"
+                android:onClick="filterDocumentary"
+                android:id="@+id/documentary" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro Sepia"
-                android:id="@+id/button_sepiaFilter" />
+                android:text="Duotone"
+                android:onClick="filterDuotone"
+                android:id="@+id/duotone" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtro Aqua"
-                android:id="@+id/button_aquaFilter" />
+                android:text="Filllight"
+                android:onClick="filterFillLight"
+                android:id="@+id/filllight" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FishEye"
+                android:onClick="filterFishEye"
+                android:id="@+id/fisheye" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flipvert"
+                android:onClick="filterFlipvert"
+                android:id="@+id/flipvert" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fliphor"
+                android:onClick="filterFliphor"
+                android:id="@+id/fliphor" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grain"
+                android:onClick="filterGrain"
+                android:id="@+id/grain" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grayscale"
+                android:onClick="filterGrayscale"
+                android:id="@+id/grayscale" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lomoish"
+                android:onClick="filterLomoish"
+                android:id="@+id/lomoish" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Posterize"
+                android:onClick="filterPosterize"
+                android:id="@+id/posterize" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rotate"
+                android:onClick="filterRotate"
+                android:id="@+id/rotate" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturate"
+                android:onClick="filterSaturate"
+                android:id="@+id/saturate" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sepia"
+                android:onClick="filterSepia"
+                android:id="@+id/sepia" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sharpen"
+                android:onClick="filterSharpen"
+                android:id="@+id/sharpen" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperature"
+                android:onClick="filterTemperature"
+                android:id="@+id/temperature" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tint"
+                android:onClick="filterTint"
+                android:id="@+id/tint" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vignette"
+                android:onClick="filterVignette"
+                android:id="@+id/vignette" />
 
         </LinearLayout>
     </HorizontalScrollView>
