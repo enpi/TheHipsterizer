@@ -97,7 +97,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
 
         pickImage();
 
-        initializeFilterButtons();
+        //initializeFilterButtons();
 
 
     }
@@ -160,6 +160,11 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         GLToolbox.initTexParams();
     }
 
+    public void filterNone(View v){
+        setCurrentEffect(R.id.none);
+        mEffectView.requestRender();
+    }
+
     public void filterNegative(View v) {
         setCurrentEffect(R.id.negative);
         if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_NEGATIVE) ) {
@@ -179,7 +184,6 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
             Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
         }
     }
-
 
     public void filterBw(View v) {
         setCurrentEffect(R.id.bw);
