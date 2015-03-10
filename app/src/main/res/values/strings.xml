@@ -8,5 +8,8 @@
     <string name="action_autoflash">Auto Flash</string>
     <string name="action_flash">Flash</string>
     <string name="action_noflash">No Flash</string>
+    <string name="action_save">Save</string>
+    <string name="action_home">Home</string>
+
 
 </resources>

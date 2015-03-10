@@ -183,6 +183,11 @@ public class CameraActivity extends ActionBarActivity {
                 }
                 invalidateOptionsMenu();
                 return true;
+            case R.id.action_home:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

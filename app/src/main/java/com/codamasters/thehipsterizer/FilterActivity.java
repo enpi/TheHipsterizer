@@ -12,6 +12,7 @@ import android.hardware.Camera;
 import android.media.effect.Effect;
 import android.media.effect.EffectContext;
 import android.net.Uri;
+import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +30,13 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.IntBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.media.effect.EffectFactory;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -38,16 +45,20 @@ import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Created by julio on 26/02/15.
  */
-public class FilterActivity extends ActionBarActivity implements GLSurfaceView.Renderer{
+public class FilterActivity extends ActionBarActivity implements GLSurfaceView.Renderer {
 
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
+    private Bitmap auxImage;
     private Context context;
 
     private GLSurfaceView mEffectView;
@@ -93,10 +104,10 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
 
     public static Bitmap applyGaussianBlur(Bitmap src) {
         //set gaussian blur configuration
-        double[][] GaussianBlurConfig = new double[][] {
-                { 1, 2, 1 },
-                { 2, 4, 2 },
-                { 1, 2, 1 }
+        double[][] GaussianBlurConfig = new double[][]{
+                {1, 2, 1},
+                {2, 4, 2},
+                {1, 2, 1}
         };
         // create instance of Convolution matrix
         ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
@@ -121,18 +132,19 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                                     Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch(requestCode) {
+        switch (requestCode) {
             case REQ_CODE_PICK_IMAGE:
-            if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
-                InputStream imageStream = null;
-                try {
-                    imageStream = context.getContentResolver().openInputStream(selectedImage);
-                    galleryImage = BitmapFactory.decodeStream(imageStream);
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = context.getContentResolver().openInputStream(selectedImage);
+                        galleryImage = BitmapFactory.decodeStream(imageStream);
+                        auxImage = galleryImage;
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
         }
     }
@@ -273,7 +285,6 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         setCurrentEffect(R.id.vignette);
         mEffectView.requestRender();
     }
-
 
 
     private void initEffect() {
@@ -431,14 +442,15 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         mEffect.apply(mTextures[0], mImageWidth, mImageHeight, mTextures[1]);
     }
 
+
     private void renderResult() {
         if (mCurrentEffect != R.id.none) {
             // if no effect is chosen, just render the original bitmap
             mTexRenderer.renderTexture(mTextures[1]);
-        }
-        else {
+        } else {
             // render the result of applyEffect()
             mTexRenderer.renderTexture(mTextures[0]);
+
         }
     }
 
@@ -469,5 +481,106 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
             applyEffect();
         }
         renderResult();
+
+        auxImage = createBitmapFromGLSurface((int) mEffectView.getX(),(int) mEffectView.getY(),mEffectView.getWidth(),mEffectView.getHeight(),gl);
+
+    }
+
+    // Create menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_filter, menu);
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        ActionBar actionBar = getSupportActionBar();
+        switch (item.getItemId()) {
+            case R.id.action_save:
+
+                File pictureFile = getOutputMediaFile();
+
+                FileOutputStream out = null;
+                try {
+                    out = new FileOutputStream(pictureFile);
+                    auxImage.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                    // PNG is a lossless format, the compression factor (100) is ignored
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) {
+                            out.close();
+                            try {
+                                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                Uri uri = Uri.fromFile(pictureFile);
+                                mediaScanIntent.setData(uri);
+                                sendBroadcast(mediaScanIntent);
+                            } catch(Exception e) {
+                            }
+
+                            Toast.makeText(getApplicationContext(), "Imagen guardada",Toast.LENGTH_LONG).show();
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                return true;
+
+            case R.id.action_home:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private static File getOutputMediaFile() {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+        return mediaFile;
+    }
+
+    private Bitmap createBitmapFromGLSurface(int x, int y, int w, int h, GL10 gl)
+            throws OutOfMemoryError {
+        int bitmapBuffer[] = new int[w * h];
+        int bitmapSource[] = new int[w * h];
+        IntBuffer intBuffer = IntBuffer.wrap(bitmapBuffer);
+        intBuffer.position(0);
+
+        try {
+            gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, intBuffer);
+            int offset1, offset2;
+            for (int i = 0; i < h; i++) {
+                offset1 = i * w;
+                offset2 = (h - i - 1) * w;
+                for (int j = 0; j < w; j++) {
+                    int texturePixel = bitmapBuffer[offset1 + j];
+                    int blue = (texturePixel >> 16) & 0xff;
+                    int red = (texturePixel << 16) & 0x00ff0000;
+                    int pixel = (texturePixel & 0xff00ff00) | red | blue;
+                    bitmapSource[offset2 + j] = pixel;
+                }
+            }
+        } catch (GLException e) {
+            return null;
+        }
+
+        return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
     }
 }
