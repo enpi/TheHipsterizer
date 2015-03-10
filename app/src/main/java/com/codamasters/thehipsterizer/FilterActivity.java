@@ -95,28 +95,23 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         mEffectView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         mCurrentEffect = R.id.none;
 
-
         pickImage();
+
+        initializeFilterButtons();
 
 
     }
 
+    private void initializeFilterButtons(){
+        EffectFactory effectFactory = mEffectContext.getFactory();
 
-    public static Bitmap applyGaussianBlur(Bitmap src) {
-        //set gaussian blur configuration
-        double[][] GaussianBlurConfig = new double[][]{
-                {1, 2, 1},
-                {2, 4, 2},
-                {1, 2, 1}
-        };
-        // create instance of Convolution matrix
-        ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
-        // Apply Configuration
-        convMatrix.applyConfig(GaussianBlurConfig);
-        convMatrix.Factor = 16;
-        convMatrix.Offset = 0;
-        //return out put bitmap
-        return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+        Button button = (Button) findViewById(R.id.negative);
+
+        Drawable draw = getResources().getDrawable(R.drawable.coffee);
+        Effect effect = effectFactory.createEffect(EffectFactory.EFFECT_NEGATIVE);
+
+
+
     }
 
     public void pickImage() {
@@ -167,123 +162,236 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
 
     public void filterNegative(View v) {
         setCurrentEffect(R.id.negative);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_NEGATIVE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterAutoFix(View v) {
         setCurrentEffect(R.id.autofix);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_AUTOFIX) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
 
     public void filterBw(View v) {
         setCurrentEffect(R.id.bw);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_BLACKWHITE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterBrightness(View v) {
         setCurrentEffect(R.id.brightness);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_BRIGHTNESS) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterContrast(View v) {
         setCurrentEffect(R.id.contrast);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_CONTRAST) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterCrossprocess(View v) {
         setCurrentEffect(R.id.crossprocess);
-        mEffectView.requestRender();
-    }
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_CROSSPROCESS) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }    }
 
     public void filterDocumentary(View v) {
         setCurrentEffect(R.id.documentary);
-        mEffectView.requestRender();
+
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_DOCUMENTARY) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterDuotone(View v) {
         setCurrentEffect(R.id.duotone);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_DUOTONE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterFillLight(View v) {
         setCurrentEffect(R.id.filllight);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_FILLLIGHT) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterFishEye(View v) {
         setCurrentEffect(R.id.fisheye);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_FISHEYE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterFlipvert(View v) {
         setCurrentEffect(R.id.flipvert);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_FLIP) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterFliphor(View v) {
         setCurrentEffect(R.id.fliphor);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_FLIP) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterGrain(View v) {
         setCurrentEffect(R.id.grain);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_GRAIN) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterGrayscale(View v) {
         setCurrentEffect(R.id.grayscale);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_GRAYSCALE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        };
     }
 
 
     public void filterLomoish(View v) {
         setCurrentEffect(R.id.lomoish);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_LOMOISH) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
 
     public void filterPosterize(View v) {
         setCurrentEffect(R.id.posterize);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_POSTERIZE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
 
     public void filterRotate(View v) {
         setCurrentEffect(R.id.rotate);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_ROTATE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
-
 
     public void filterSaturate(View v) {
         setCurrentEffect(R.id.saturate);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_SATURATE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
-
 
     public void filterSepia(View v) {
         setCurrentEffect(R.id.sepia);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_SEPIA) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterSharpen(View v) {
         setCurrentEffect(R.id.sharpen);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_SHARPEN) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterTemperature(View v) {
         setCurrentEffect(R.id.temperature);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_TEMPERATURE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterTint(View v) {
         setCurrentEffect(R.id.tint);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_TINT) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void filterVignette(View v) {
         setCurrentEffect(R.id.vignette);
-        mEffectView.requestRender();
+        if (EffectFactory.isEffectSupported(EffectFactory.EFFECT_VIGNETTE) ) {
+            mEffectView.requestRender();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Tu version de Android no dispone de este efecto",Toast.LENGTH_LONG).show();
+        }
     }
 
 
