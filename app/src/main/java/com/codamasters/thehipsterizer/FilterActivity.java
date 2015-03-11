@@ -1,5 +1,7 @@
 package com.codamasters.thehipsterizer;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -70,6 +72,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
     private int mImageHeight;
     private boolean mInitialized = false;
     private int mCurrentEffect;
+    private GL10 data;
 
     public void setCurrentEffect(int effect) {
         mCurrentEffect = effect;
@@ -81,9 +84,11 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         context = this;
         setContentView(R.layout.activity_filter);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+
 
         /**
          * Initialise the renderer and tell it to only render when
@@ -96,9 +101,6 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
         mCurrentEffect = R.id.none;
 
         pickImage();
-
-        //initializeFilterButtons();
-
 
     }
 
@@ -130,11 +132,10 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                     }
                 }
                 else{
-
-                    finishActivity(requestCode);
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
-
+                    galleryImage = null;
+                    auxImage = null;
 
                 }
         }
