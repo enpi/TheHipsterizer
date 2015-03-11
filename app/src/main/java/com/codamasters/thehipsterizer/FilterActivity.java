@@ -102,18 +102,6 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
 
     }
 
-    private void initializeFilterButtons(){
-        EffectFactory effectFactory = mEffectContext.getFactory();
-
-        Button button = (Button) findViewById(R.id.negative);
-
-        Drawable draw = getResources().getDrawable(R.drawable.coffee);
-        Effect effect = effectFactory.createEffect(EffectFactory.EFFECT_NEGATIVE);
-
-
-
-    }
-
     public void pickImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -129,7 +117,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
 
         switch (requestCode) {
             case REQ_CODE_PICK_IMAGE:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK && imageReturnedIntent !=  null ) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     InputStream imageStream = null;
                     try {
@@ -140,6 +128,14 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+                }
+                else{
+
+                    finishActivity(requestCode);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+
+
                 }
         }
     }
@@ -584,7 +580,8 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
             //Only need to do this once
             mEffectContext = EffectContext.createWithCurrentGlContext();
             mTexRenderer.init();
-            loadTextures(galleryImage);
+            if(galleryImage!=null)
+                loadTextures(galleryImage);
             mInitialized = true;
         }
         if (mCurrentEffect != R.id.none) {
