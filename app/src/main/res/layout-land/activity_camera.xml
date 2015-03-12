@@ -68,51 +68,296 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/filtersLayout">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin filtro"
-                    android:id="@+id/button_noneFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Sepia"
-                    android:id="@+id/button_sepiaFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Aqua"
-                    android:id="@+id/button_aquaFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro BlackBoard"
-                    android:id="@+id/button_blackboardFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro WhiteBoard"
-                    android:id="@+id/button_whiteboardFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Posterize"
-                    android:id="@+id/button_posterizeFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Negativo"
-                    android:id="@+id/button_negativeFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Mono"
-                    android:id="@+id/button_monoFilter" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro Solarize"
-                    android:id="@+id/button_solarizeFilter" />
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_monoFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Mono"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_negativeFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Negativo"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_solarizeFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Solarize"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_posterizeFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Posterize"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_whiteboardFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Whiteboard"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_blackboardFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="BlackBoard"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_noneFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="None"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_sepiaFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Sepia"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_live_button"
+                    android:padding="1dp"
+                    android:id="@+id/button_aquaFilter" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/coffee" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ffd700"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Aqua"
+                        android:textColor="#000000"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

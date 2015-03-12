@@ -83,7 +83,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_monoFilter" >
 
@@ -98,11 +98,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Mono"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -115,7 +115,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_negativeFilter" >
 
@@ -130,11 +130,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Negativo"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -147,7 +147,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_solarizeFilter" >
 
@@ -162,11 +162,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Solarize"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -179,7 +179,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_posterizeFilter" >
 
@@ -194,11 +194,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Posterize"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -212,7 +212,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_whiteboardFilter" >
 
@@ -227,11 +227,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Whiteboard"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -244,7 +244,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_blackboardFilter" >
 
@@ -259,11 +259,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="BlackBoard"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -276,7 +276,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_noneFilter" >
 
@@ -291,11 +291,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="None"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -308,7 +308,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_sepiaFilter" >
 
@@ -323,11 +323,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Sepia"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -341,7 +341,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_live_button"
                     android:padding="1dp"
                     android:id="@+id/button_aquaFilter" >
 
@@ -356,11 +356,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#1D63A1"
+                        android:background="#ffd700"
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="Aqua"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="10dp" />
 
                 </LinearLayout>
