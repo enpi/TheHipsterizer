@@ -52,8 +52,8 @@ public class CameraActivity extends ActionBarActivity {
     private ImageButton capture, filters;
     private ScrollView filtersScroll;
     private HorizontalScrollView horizontalFiltersScroll;
-    private Button noneFilter, sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
-            posterizeFilter, negativeFilter, monoFilter, solarizeFilter;
+    private LinearLayout noneFilter,monoFilter,  sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
+            posterizeFilter, negativeFilter, solarizeFilter;
     private ImageView capturedImage;
     private Uri fileUri;
     private String filePath;
@@ -247,31 +247,31 @@ public class CameraActivity extends ActionBarActivity {
         capture = (ImageButton) findViewById(R.id.button_capture);
         capture.setOnClickListener(captureListener);
 
-        noneFilter = (Button) findViewById(R.id.button_noneFilter);
+        noneFilter = (LinearLayout) findViewById(R.id.button_noneFilter);
         noneFilter.setOnClickListener(noneFilterListener);
 
-        sepiaFilter = (Button) findViewById(R.id.button_sepiaFilter);
+        sepiaFilter = (LinearLayout) findViewById(R.id.button_sepiaFilter);
         sepiaFilter.setOnClickListener(sepiaFilterListener);
 
-        aquaFilter = (Button) findViewById(R.id.button_aquaFilter);
+        aquaFilter = (LinearLayout) findViewById(R.id.button_aquaFilter);
         aquaFilter.setOnClickListener(aquaFilterListener);
 
-        blackboardFilter = (Button) findViewById(R.id.button_blackboardFilter);
+        blackboardFilter = (LinearLayout) findViewById(R.id.button_blackboardFilter);
         blackboardFilter.setOnClickListener(blackboardFilterListener);
 
-        whiteboardFilter = (Button) findViewById(R.id.button_whiteboardFilter);
+        whiteboardFilter = (LinearLayout) findViewById(R.id.button_whiteboardFilter);
         whiteboardFilter.setOnClickListener(whiteboardFilterListener);
 
-        posterizeFilter = (Button) findViewById(R.id.button_posterizeFilter);
+        posterizeFilter = (LinearLayout) findViewById(R.id.button_posterizeFilter);
         posterizeFilter.setOnClickListener(posterizeFilterListener);
 
-        negativeFilter = (Button) findViewById(R.id.button_negativeFilter);
+        negativeFilter = (LinearLayout) findViewById(R.id.button_negativeFilter);
         negativeFilter.setOnClickListener(negativeFilterListener);
 
-        monoFilter = (Button) findViewById(R.id.button_monoFilter);
+        monoFilter = (LinearLayout) findViewById(R.id.button_monoFilter);
         monoFilter.setOnClickListener(monoFilterListener);
 
-        solarizeFilter = (Button) findViewById(R.id.button_solarizeFilter);
+        solarizeFilter = (LinearLayout) findViewById(R.id.button_solarizeFilter);
         solarizeFilter.setOnClickListener(solarizeFilterListener);
 
         filters = (ImageButton) findViewById(R.id.button_filters);
