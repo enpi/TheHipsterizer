@@ -132,6 +132,7 @@ public class FilterActivity extends ActionBarActivity implements GLSurfaceView.R
                     }
                 }
                 else{
+                    finish();
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     galleryImage = null;
