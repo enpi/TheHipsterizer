@@ -71,6 +71,7 @@ public class CameraActivity extends ActionBarActivity {
     private final int FLASH_ON = 1;
     private final int FLASH_OFF = 2;
     private int flashState = FLASH_OFF;
+    private String actualFilter = Camera.Parameters.EFFECT_NONE;
 
 
 
@@ -300,6 +301,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NONE);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_NONE;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -310,6 +312,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SEPIA);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_SEPIA;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -320,6 +323,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_AQUA);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_AQUA;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -330,6 +334,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_BLACKBOARD);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_BLACKBOARD;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -340,6 +345,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_WHITEBOARD);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_WHITEBOARD;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -350,6 +356,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_POSTERIZE);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_POSTERIZE;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -360,6 +367,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NEGATIVE);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_NEGATIVE;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -370,6 +378,7 @@ public class CameraActivity extends ActionBarActivity {
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_MONO);
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_MONO;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -379,8 +388,8 @@ public class CameraActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SOLARIZE);
-
             mPreview.refreshCamera(mCamera);
+            actualFilter=Camera.Parameters.EFFECT_SOLARIZE;
             menuFiltersLayout.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.VISIBLE);
         }
@@ -565,6 +574,7 @@ public class CameraActivity extends ActionBarActivity {
         outState.putInt("cameraId", cameraId);
         outState.putBoolean("cameraFront", cameraFront);
         outState.putString("filePath", filePath);
+        outState.putString("actualFilter", actualFilter);
 
         super.onSaveInstanceState(outState);
 
@@ -579,11 +589,13 @@ public class CameraActivity extends ActionBarActivity {
         cameraId = savedInstanceState.getInt("cameraId");
         cameraFront = savedInstanceState.getBoolean("cameraFront");
         filePath = savedInstanceState.getString("filePath");
+        actualFilter = savedInstanceState.getString("actualFilter");
 
         //filtersScroll.scrollTo(sViewX, sViewY);
         releaseCamera();
         mCamera = Camera.open(cameraId);
         mPicture = getPictureCallback();
+        mPreview.setCurrentFilter(actualFilter);
         mPreview.refreshCamera(mCamera);
 
         if (filePath != null) {
