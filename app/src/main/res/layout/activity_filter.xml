@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.opengl.GLSurfaceView
+    <jp.co.cyberagent.android.gpuimage.GPUImageView
         android:id="@+id/image_preview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -14,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/horizontalFiltersScrollView">
-    </android.opengl.GLSurfaceView>
+    </jp.co.cyberagent.android.gpuimage.GPUImageView>
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
@@ -79,8 +79,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterAutoFix"
-                android:id="@+id/autofix">
+                android:onClick="filter1977"
+                android:id="@+id/hipster">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Auto Fix"
+                    android:text="1977"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -112,8 +112,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterNegative"
-                android:id="@+id/negative" >
+                android:onClick="filterNashville"
+                android:id="@+id/nashville" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Negativo"
+                    android:text="Nashville"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -145,8 +145,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterBw"
-                android:id="@+id/bw" >
+                android:onClick="filterValencia"
+                android:id="@+id/valencia" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="BW"
+                    android:text="Valencia"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -178,8 +178,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterBrightness"
-                android:id="@+id/brightness" >
+                android:onClick="filterAmaro"
+                android:id="@+id/amaro" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -195,7 +195,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Brightness"
+                    android:text="Amaro"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -211,8 +211,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterContrast"
-                android:id="@+id/contrast" >
+                android:onClick="filterBrannan"
+                android:id="@+id/brannan" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Contrast"
+                    android:text="Brannan"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -244,8 +244,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterCrossprocess"
-                android:id="@+id/crossprocess" >
+                android:onClick="filterEarlyBird"
+                android:id="@+id/earlybird" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -261,7 +261,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Hipster"
+                    android:text="EarlyBird"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -277,8 +277,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterDocumentary"
-                android:id="@+id/documentary" >
+                android:onClick="filterHefe"
+                android:id="@+id/hefe" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Doc"
+                    android:text="Hefe"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -310,8 +310,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterDuotone"
-                android:id="@+id/duotone" >
+                android:onClick="filterHudson"
+                android:id="@+id/hudson" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -327,7 +327,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Duotone"
+                    android:text="Hudson"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -343,8 +343,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterFillLight"
-                android:id="@+id/filllight" >
+                android:onClick="filterInkwell"
+                android:id="@+id/inkwell" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -360,7 +360,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Fill Light"
+                    android:text="Inkwell"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -376,8 +376,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterFishEye"
-                android:id="@+id/fisheye" >
+                android:onClick="filterLomofi"
+                android:id="@+id/lomofi" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -393,7 +393,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Fisheye"
+                    android:text="Lomofi"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -409,8 +409,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterFlipvert"
-                android:id="@+id/flipvert" >
+                android:onClick="filterLordKelvin"
+                android:id="@+id/lordkelvin" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -426,7 +426,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Flipvert"
+                    android:text="LordKelvin"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -442,8 +442,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterFliphor"
-                android:id="@+id/fliphor" >
+                android:onClick="filterNormal"
+                android:id="@+id/normal" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -459,7 +459,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Fliphor"
+                    android:text="Normal"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -475,8 +475,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterGrain"
-                android:id="@+id/grain" >
+                android:onClick="filterRise"
+                android:id="@+id/rise" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -492,7 +492,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Grain"
+                    android:text="Rise"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -508,8 +508,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterGrayscale"
-                android:id="@+id/grayscale" >
+                android:onClick="filterSierra"
+                android:id="@+id/sierra" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -525,7 +525,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Grayscale"
+                    android:text="Sierra"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -541,8 +541,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterLomoish"
-                android:id="@+id/lomoish" >
+                android:onClick="filterSutro"
+                android:id="@+id/sutro" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -558,7 +558,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Lomoish"
+                    android:text="Sutro"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -574,8 +574,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterPosterize"
-                android:id="@+id/posterize" >
+                android:onClick="filterToaster"
+                android:id="@+id/toaster" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -591,7 +591,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Posterize"
+                    android:text="Toaster"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -607,8 +607,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterRotate"
-                android:id="@+id/rotate" >
+                android:onClick="filterWalden"
+                android:id="@+id/walden" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -624,7 +624,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Rotate"
+                    android:text="Walden"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -640,8 +640,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterSaturate"
-                android:id="@+id/saturate" >
+                android:onClick="filterXproll"
+                android:id="@+id/xproll" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -657,7 +657,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Saturate"
+                    android:text="Xproll"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
@@ -673,8 +673,8 @@
                 android:orientation="vertical"
                 android:background="@drawable/border_button"
                 android:padding="1dp"
-                android:onClick="filterSepia"
-                android:id="@+id/sepia" >
+                android:onClick="filterHaze"
+                android:id="@+id/haze" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -690,140 +690,7 @@
                     android:background="#1D63A1"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="Sepia"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/border_button"
-                android:padding="1dp"
-                android:onClick="filterSharpen"
-                android:id="@+id/sharpen" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/coffee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#1D63A1"
-                    android:gravity="center"
-                    android:padding="2dp"
-                    android:text="Sharpen"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/border_button"
-                android:padding="1dp"
-                android:onClick="filterTemperature"
-                android:id="@+id/temperature" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/coffee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#1D63A1"
-                    android:gravity="center"
-                    android:padding="2dp"
-                    android:text="Calor"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/border_button"
-                android:padding="1dp"
-                android:onClick="filterTint"
-                android:id="@+id/tint" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/coffee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#1D63A1"
-                    android:gravity="center"
-                    android:padding="2dp"
-                    android:text="Tint"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/border_button"
-                android:padding="1dp"
-                android:onClick="filterVignette"
-                android:id="@+id/vignette" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/coffee" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#1D63A1"
-                    android:gravity="center"
-                    android:padding="2dp"
-                    android:text="Vignette"
+                    android:text="Haze"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp" />
 
