@@ -18,6 +18,7 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 
     private ImageButton cameraMode;
+    private Intent cameraIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,11 +39,15 @@ public class MainActivity extends ActionBarActivity {
     public void openCamera(View view){
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.animator.animation1, R.animator.animation2);
+
     }
 
     public void openFilter(View view){
         Intent intent = new Intent(this, FilterActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.animator.animation1, R.animator.animation2);
+
     }
 
 

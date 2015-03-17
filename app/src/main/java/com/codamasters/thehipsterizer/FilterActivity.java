@@ -271,6 +271,7 @@ public class FilterActivity extends ActionBarActivity {
             case R.id.action_home:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.animator.animation3, R.animator.animation4);
 
                 return true;
             default:

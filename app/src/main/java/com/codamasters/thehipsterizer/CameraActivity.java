@@ -43,6 +43,9 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageView;
+
 
 public class CameraActivity extends ActionBarActivity {
 
@@ -72,12 +75,14 @@ public class CameraActivity extends ActionBarActivity {
     private final int FLASH_OFF = 2;
     private int flashState = FLASH_OFF;
     private String actualFilter = Camera.Parameters.EFFECT_NONE;
+    private GPUImageView view;
 
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_camera);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -90,6 +95,7 @@ public class CameraActivity extends ActionBarActivity {
         //buttonsLayout.bringToFront();
         initialize();
         mPreview.setWillNotDraw(false);
+
     }
 
     // Create menu
@@ -188,6 +194,7 @@ public class CameraActivity extends ActionBarActivity {
             case R.id.action_home:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.animator.animation3, R.animator.animation4);
 
                 return true;
             default:
@@ -242,38 +249,15 @@ public class CameraActivity extends ActionBarActivity {
 
     public void initialize() {
         cameraPreview = (LinearLayout) findViewById(R.id.camera_preview);
-        mPreview = new CameraPreview(myContext, mCamera);
+        view = (GPUImageView) findViewById(R.id.live_filter_view);
+
+
+        mPreview = new CameraPreview(myContext, mCamera, view);
+
         cameraPreview.addView(mPreview);
 
         capture = (ImageButton) findViewById(R.id.button_capture);
         capture.setOnClickListener(captureListener);
-
-        noneFilter = (LinearLayout) findViewById(R.id.button_noneFilter);
-        noneFilter.setOnClickListener(noneFilterListener);
-
-        sepiaFilter = (LinearLayout) findViewById(R.id.button_sepiaFilter);
-        sepiaFilter.setOnClickListener(sepiaFilterListener);
-
-        aquaFilter = (LinearLayout) findViewById(R.id.button_aquaFilter);
-        aquaFilter.setOnClickListener(aquaFilterListener);
-
-        blackboardFilter = (LinearLayout) findViewById(R.id.button_blackboardFilter);
-        blackboardFilter.setOnClickListener(blackboardFilterListener);
-
-        whiteboardFilter = (LinearLayout) findViewById(R.id.button_whiteboardFilter);
-        whiteboardFilter.setOnClickListener(whiteboardFilterListener);
-
-        posterizeFilter = (LinearLayout) findViewById(R.id.button_posterizeFilter);
-        posterizeFilter.setOnClickListener(posterizeFilterListener);
-
-        negativeFilter = (LinearLayout) findViewById(R.id.button_negativeFilter);
-        negativeFilter.setOnClickListener(negativeFilterListener);
-
-        monoFilter = (LinearLayout) findViewById(R.id.button_monoFilter);
-        monoFilter.setOnClickListener(monoFilterListener);
-
-        solarizeFilter = (LinearLayout) findViewById(R.id.button_solarizeFilter);
-        solarizeFilter.setOnClickListener(solarizeFilterListener);
 
         filters = (ImageButton) findViewById(R.id.button_filters);
         filters.setOnClickListener(filtersListener);
@@ -296,104 +280,125 @@ public class CameraActivity extends ActionBarActivity {
 
     }
 
-    OnClickListener noneFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NONE);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_NONE;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
 
-    OnClickListener sepiaFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SEPIA);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_SEPIA;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filterNone(View v){
 
-    OnClickListener aquaFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_AQUA);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_AQUA;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    }
 
-    OnClickListener blackboardFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_BLACKBOARD);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_BLACKBOARD;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filterNashville(View v) {
+        mPreview.setActualFilter( new IFNashvilleFilter(this) );
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
 
-    OnClickListener whiteboardFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_WHITEBOARD);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_WHITEBOARD;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filter1977(View v) {
+        mPreview.setActualFilter( new IF1977Filter(this) );
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
 
-    OnClickListener posterizeFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_POSTERIZE);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_POSTERIZE;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filterValencia(View v) {
+         mPreview.setActualFilter(new IFValenciaFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
 
-    OnClickListener negativeFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_NEGATIVE);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_NEGATIVE;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filterAmaro(View v) {
+         mPreview.setActualFilter (new IFAmaroFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
 
-    OnClickListener monoFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_MONO);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_MONO;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filterBrannan(View v) {
+         mPreview.setActualFilter (new IFBrannanFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
 
-    OnClickListener solarizeFilterListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mPreview.setCurrentFilter(Camera.Parameters.EFFECT_SOLARIZE);
-            mPreview.refreshCamera(mCamera);
-            actualFilter=Camera.Parameters.EFFECT_SOLARIZE;
-            menuFiltersLayout.setVisibility(View.GONE);
-            buttonsLayout.setVisibility(View.VISIBLE);
-        }
-    };
+    public void filterEarlyBird(View v) {
+         mPreview.setActualFilter (new IFEarlybirdFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterHefe(View v) {
+         mPreview.setActualFilter (new IFHefeFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterHudson(View v) {
+         mPreview.setActualFilter (new IFHudsonFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterInkwell(View v) {
+         mPreview.setActualFilter (new IFInkwellFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterLomofi(View v) {
+         mPreview.setActualFilter (new IFLomofiFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterLordKelvin(View v) {
+         mPreview.setActualFilter(new IFLordKelvinFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterNormal(View v) {
+         mPreview.setActualFilter(new IFNormalFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+
+    }
+
+    public void filterRise(View v) {
+         mPreview.setActualFilter(new IFRiseFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterSierra(View v) {
+         mPreview.setActualFilter(new IFSierraFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterSutro(View v) {
+         mPreview.setActualFilter(new IFSutroFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterToaster(View v) {
+         mPreview.setActualFilter(new IFToasterFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterWalden(View v) {
+         mPreview.setActualFilter(new IFWaldenFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterXproll(View v) {
+         mPreview.setActualFilter(new IFXproIIFilter(this));
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterHaze(View v) {
+         mPreview.setActualFilter(new GPUImageHazeFilter());
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
 
     OnClickListener filtersListener = new OnClickListener() {
         @Override
@@ -595,7 +600,6 @@ public class CameraActivity extends ActionBarActivity {
         releaseCamera();
         mCamera = Camera.open(cameraId);
         mPicture = getPictureCallback();
-        mPreview.setCurrentFilter(actualFilter);
         mPreview.refreshCamera(mCamera);
 
         if (filePath != null) {
