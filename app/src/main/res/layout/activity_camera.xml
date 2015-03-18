@@ -35,18 +35,35 @@
         android:layout_weight="7"
         android:layout_gravity="center"
         android:background ="#00676767"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="425dp"
         android:id="@+id/buttonsLayout">
 
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical">
+
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/capturedImageView"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_vertical" />
+            android:background="@drawable/bg_captured" />
+
+        <ProgressBar
+            android:id="@+id/loadingPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
 
 
-        <ImageButton
+    <ImageButton
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:id="@+id/button_capture"
@@ -56,12 +73,39 @@
             android:layout_centerInParent="true"
             android:focusableInTouchMode="true" />
 
-        <ImageButton
-            android:layout_width="80dp"
+
+        <LinearLayout
+            android:layout_width="60dp"
             android:layout_height="80dp"
-            android:id="@+id/button_filters"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/border_button"
             android:layout_alignParentRight="true"
-            android:background="@drawable/coffee" />
+            android:padding="1dp"
+            android:id="@+id/button_filters">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/coffee" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#1D63A1"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="Filter"
+                android:textColor="#FFFFFF"
+                android:textSize="10dp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
     <LinearLayout

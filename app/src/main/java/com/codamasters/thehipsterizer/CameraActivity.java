@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -26,6 +28,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +41,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -52,7 +56,8 @@ public class CameraActivity extends ActionBarActivity {
     private Camera mCamera;
     private CameraPreview mPreview;
     private PictureCallback mPicture;
-    private ImageButton capture, filters;
+    private ImageButton capture;
+    private LinearLayout filters;
     private ScrollView filtersScroll;
     private HorizontalScrollView horizontalFiltersScroll;
     private LinearLayout noneFilter,monoFilter,  sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
@@ -76,6 +81,11 @@ public class CameraActivity extends ActionBarActivity {
     private int flashState = FLASH_OFF;
     private String actualFilter = Camera.Parameters.EFFECT_NONE;
     private GPUImageView view;
+    private Matrix matrix;
+    private Bitmap auxImage;
+    private ProgressBar progBar;
+    private Handler mHandler;
+
 
 
 
@@ -95,6 +105,8 @@ public class CameraActivity extends ActionBarActivity {
         //buttonsLayout.bringToFront();
         initialize();
         mPreview.setWillNotDraw(false);
+        mHandler = new Handler();
+
 
     }
 
@@ -123,8 +135,6 @@ public class CameraActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        Camera.Parameters p = mCamera.getParameters();
-        ActionBar actionBar = getSupportActionBar();
         switch (item.getItemId()) {
             case R.id.action_switch:
                 int camerasNumber = Camera.getNumberOfCameras();
@@ -135,13 +145,13 @@ public class CameraActivity extends ActionBarActivity {
 
                     mCamera.stopPreview();
 
-
                     WindowManager wm = (WindowManager) myContext.getSystemService(Context.WINDOW_SERVICE);
                     Display display = wm.getDefaultDisplay();
 
                     if(display.getRotation() == Surface.ROTATION_0)
                     {
                         mCamera.setDisplayOrientation(90);
+
                     }
 
                     if(display.getRotation() == Surface.ROTATION_90)
@@ -156,12 +166,10 @@ public class CameraActivity extends ActionBarActivity {
 
                     if(display.getRotation() == Surface.ROTATION_270)
                     {
-
                         mCamera.setDisplayOrientation(180);
                     }
 
                     mPreview.refreshCamera(mCamera);
-
                     mCamera.startPreview();
 
 
@@ -259,7 +267,7 @@ public class CameraActivity extends ActionBarActivity {
         capture = (ImageButton) findViewById(R.id.button_capture);
         capture.setOnClickListener(captureListener);
 
-        filters = (ImageButton) findViewById(R.id.button_filters);
+        filters = (LinearLayout) findViewById(R.id.button_filters);
         filters.setOnClickListener(filtersListener);
 
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
@@ -276,6 +284,9 @@ public class CameraActivity extends ActionBarActivity {
         autoflashicon = getResources().getDrawable(R.drawable.autoflash);
         flashicon = getResources().getDrawable(R.drawable.flash);
         noflashicon = getResources().getDrawable(R.drawable.noflash);
+
+        matrix = new Matrix();
+        progBar = (ProgressBar) findViewById(R.id.loadingPanel);
 
 
     }
@@ -425,12 +436,17 @@ public class CameraActivity extends ActionBarActivity {
 
 
     public void chooseCamera() {
+
         if (cameraFront) {
             int cameraId = findBackFacingCamera();
             if (cameraId >= 0) {
+
                 mCamera = Camera.open(cameraId);
                 mPicture = getPictureCallback();
                 mPreview.refreshCamera(mCamera);
+
+                matrix.postRotate(90);
+                mPreview.setMatrix(matrix);
             }
         } else {
             int cameraId = findFrontFacingCamera();
@@ -439,8 +455,14 @@ public class CameraActivity extends ActionBarActivity {
                 mCamera = Camera.open(cameraId);
                 mPicture = getPictureCallback();
                 mPreview.refreshCamera(mCamera);
+                mCamera.setDisplayOrientation(90);
+
+                matrix.postRotate(-90);
+                mPreview.setMatrix(matrix);
+
             }
         }
+
     }
 
     @Override
@@ -462,88 +484,62 @@ public class CameraActivity extends ActionBarActivity {
 
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                pictureFile = getOutputMediaFile();
 
-                if (pictureFile == null) {
-                    return;
-                }
                 try {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
 
-                    FileOutputStream fos = new FileOutputStream(pictureFile);
-                    fos.write(data);
+                                File pictureFileOut = getOutputMediaFile();
+                                pictureFile = pictureFileOut;
 
-                    fos.close();
+                                FileOutputStream out = null;
 
-                    try {
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        Uri uri = Uri.fromFile(pictureFile);
-                        mediaScanIntent.setData(uri);
-                        sendBroadcast(mediaScanIntent);
-                    } catch(Exception e) {
-                    }
+                                out = new FileOutputStream(pictureFileOut);
 
+                                auxImage = view.capture();
+                                auxImage.compress(Bitmap.CompressFormat.PNG, 100, out);
 
-                    showImage();
+                                try {
+                                    if (out != null) {
+                                        out.close();
+                                        try {
+                                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                            Uri uri = Uri.fromFile(pictureFileOut);
+                                            mediaScanIntent.setData(uri);
+                                            sendBroadcast(mediaScanIntent);
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                capturedImage.setImageBitmap(auxImage);
+                                progBar.setVisibility(View.GONE);
 
-                } catch (FileNotFoundException e) {
-                } catch (IOException e) {
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+
                 }
+
                 mPreview.refreshCamera(mCamera);
             }
         };
         return picture;
     }
 
-    private void loadMiniImage(){
-        GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
-        Bitmap bitmap = null;
-        try {
-            bitmap = getImageThumbnail.getThumbnail(fileUri, this );
-
-            int orientation = getResources().getConfiguration().orientation;
-
-            if(orientation == Configuration.ORIENTATION_PORTRAIT ) {
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                Matrix matrix = new Matrix();
-
-
-                if (!cameraFront) {
-                    matrix.postRotate(90);
-                } else {
-                    matrix.postRotate(-90);
-                }
-
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-                bitmap = rotatedBitmap;
-
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.close();
-            }
-
-
-        } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        capturedImage.setImageBitmap(bitmap);
-    }
-
-    public void showImage(){
-        fileUri = Uri.fromFile(pictureFile);
-        filePath = fileUri.getPath();
-
-        loadMiniImage();
-    }
 
     OnClickListener captureListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            progBar.setVisibility(View.VISIBLE);
             mCamera.takePicture(null, null, mPicture);
         }
     };
@@ -564,6 +560,8 @@ public class CameraActivity extends ActionBarActivity {
 
     private void releaseCamera() {
         if (mCamera != null) {
+            mCamera.setPreviewCallback(null);
+            mPreview.getHolder().removeCallback(mPreview); // Alabado sea StackOverflow
             mCamera.release();
             mCamera = null;
         }

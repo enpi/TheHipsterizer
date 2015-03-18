@@ -34,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
         TextView tv = (TextView) findViewById(R.id.titleIntro);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/pacifico.ttf");
         tv.setTypeface(face);
+
     }
 
     public void openCamera(View view){

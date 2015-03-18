@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -56,7 +57,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-	public CameraPreview(Context context, Camera camera, GPUImageView view) {
+    public void setMatrix(Matrix matrix) {
+        this.matrix = matrix;
+    }
+
+
+    public CameraPreview(Context context, Camera camera, GPUImageView view) {
 		super(context);
         actualFilter = new IFNashvilleFilter(context);
         matrix = new Matrix();
@@ -76,9 +82,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
 			// create the surface and start camera preview
-			if (mCamera == null) {
-				mCamera.setPreviewDisplay(holder);
 
+
+            int orientation = getResources().getConfiguration().orientation;
+
+            if(orientation == Configuration.ORIENTATION_LANDSCAPE ) {
+                matrix.postRotate(-90);
+
+            }
+
+			if (mCamera == null) {
+                mCamera.setPreviewDisplay(holder);
                 mCamera.startPreview();
                 isPreviewRunning = true;
 			}
@@ -105,16 +119,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 		setCamera(camera);
 		try {
-			mCamera.setPreviewDisplay(mHolder);
+            mCamera.setPreviewCallback(this);
+
+            mCamera.setPreviewDisplay(mHolder);
 			Camera.Parameters params = mCamera.getParameters();
 			params.setColorEffect(currentFilter);
             params.setFlashMode(currentFlash);
-
+            params.setPictureSize(100,100);
+            params.setPreviewSize(100,100);
             mCamera.setParameters(params);
 			mCamera.startPreview();
 
-
-            mCamera.setPreviewCallback(this);
             isPreviewRunning = true;
 		} catch (Exception e) {
 			Log.d(VIEW_LOG_TAG, "Error starting camera preview: " + e.getMessage());
@@ -135,6 +150,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if(display.getRotation() == Surface.ROTATION_0)
         {
             mCamera.setDisplayOrientation(90);
+
         }
 
         if(display.getRotation() == Surface.ROTATION_90)
@@ -151,12 +167,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         {
 
             mCamera.setDisplayOrientation(180);
+
         }
+        try{
 
         refreshCamera(mCamera);
 
         mCamera.startPreview();
         isPreviewRunning = true;
+        } catch (Exception e){
+            Log.d("Error", "Error starting camera preview: " + e.getMessage());
+        }
 
     }
 
@@ -186,7 +207,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             int imageFormat = parameters.getPreviewFormat();
             if (imageFormat == ImageFormat.NV21)
             {
-
 
                 try {
 
