@@ -54,6 +54,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import jp.co.cyberagent.android.gpuimage.GPUImage;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
@@ -88,7 +89,7 @@ public class CameraActivity extends ActionBarActivity {
     private final int FLASH_OFF = 2;
     private int flashState = FLASH_OFF;
     private GPUImageFilter actualFilter;
-    private String currentFilter;
+    private String currentFilter = "";
     private GPUImageView view;
     private Matrix matrix;
     private Bitmap auxImage;
@@ -153,30 +154,6 @@ public class CameraActivity extends ActionBarActivity {
                     chooseCamera();
 
                     mCamera.stopPreview();
-
-                    WindowManager wm = (WindowManager) myContext.getSystemService(Context.WINDOW_SERVICE);
-                    Display display = wm.getDefaultDisplay();
-
-                    if(display.getRotation() == Surface.ROTATION_0)
-                    {
-                        mCamera.setDisplayOrientation(90);
-
-                    }
-
-                    if(display.getRotation() == Surface.ROTATION_90)
-                    {
-
-                    }
-
-                    if(display.getRotation() == Surface.ROTATION_180)
-                    {
-
-                    }
-
-                    if(display.getRotation() == Surface.ROTATION_270)
-                    {
-                        mCamera.setDisplayOrientation(180);
-                    }
 
                     mPreview.refreshCamera(mCamera);
                     mCamera.startPreview();
@@ -470,23 +447,23 @@ public class CameraActivity extends ActionBarActivity {
             if (cameraId >= 0) {
 
                 mCamera = Camera.open(cameraId);
-                mPicture = getPictureCallback();
-                mPreview.refreshCamera(mCamera);
-
                 matrix.postRotate(90);
-                mPreview.setMatrix(matrix);
+                mPreview.setMatrix(matrix, 0);
+                mPicture = getPictureCallback();
+
+
             }
         } else {
             int cameraId = findFrontFacingCamera();
             if (cameraId >= 0) {
 
                 mCamera = Camera.open(cameraId);
-                mPicture = getPictureCallback();
-                mPreview.refreshCamera(mCamera);
-                mCamera.setDisplayOrientation(90);
-
                 matrix.postRotate(-90);
-                mPreview.setMatrix(matrix);
+
+                mPreview.setMatrix(matrix,  1);
+                mPicture = getPictureCallback();
+
+
 
             }
         }
@@ -625,7 +602,7 @@ public class CameraActivity extends ActionBarActivity {
 
 
             //filtersScroll.scrollTo(sViewX, sViewY);
-            releaseCamera();
+            //releaseCamera();
             mCamera = Camera.open(cameraId);
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);

@@ -49,16 +49,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private byte[] jdata;
     private Bitmap rotatedBitmap;
     private GPUImageFilter actualFilter;
+    private int cameraId;
 
 
     public void setActualFilter(GPUImageFilter actualFilter) {
         this.actualFilter = actualFilter;
-        view.setFilter(actualFilter);
-
+        if(actualFilter != null)
+            view.setFilter(actualFilter);
     }
 
-    public void setMatrix(Matrix matrix) {
-        this.matrix = matrix;
+    public void setMatrix(Matrix matrix, int cameraId) {
+        this.matrix = matrix; this.cameraId = cameraId;
     }
 
 
@@ -83,15 +84,28 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		try {
 			// create the surface and start camera preview
 
-
             int orientation = getResources().getConfiguration().orientation;
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
 
             if(orientation == Configuration.ORIENTATION_LANDSCAPE ) {
-                matrix.postRotate(-90);
 
+                if(display.getRotation() == Surface.ROTATION_90) {
+                    matrix.postRotate(-90);
+                }
+                else{
+                    matrix.postRotate(90);
+                }
+
+            }else{
+
+                if(cameraId == 1 ) {
+                    matrix.postRotate(180);
+                }
             }
 
-			if (mCamera == null) {
+
+            if (mCamera == null) {
                 mCamera.setPreviewDisplay(holder);
                 mCamera.startPreview();
                 isPreviewRunning = true;
@@ -119,14 +133,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 		setCamera(camera);
 		try {
-            mCamera.setPreviewCallback(this);
 
+            mCamera.setPreviewCallback(this);
             mCamera.setPreviewDisplay(mHolder);
 			Camera.Parameters params = mCamera.getParameters();
 			params.setColorEffect(currentFilter);
             params.setFlashMode(currentFlash);
             mCamera.setParameters(params);
 			mCamera.startPreview();
+
+
 
             isPreviewRunning = true;
 		} catch (Exception e) {
@@ -140,33 +156,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         {
             mCamera.stopPreview();
             isPreviewRunning = false;
-        }
+    }
 
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-
-        if(display.getRotation() == Surface.ROTATION_0)
-        {
-            mCamera.setDisplayOrientation(90);
-
-        }
-
-        if(display.getRotation() == Surface.ROTATION_90)
-        {
-
-        }
-
-        if(display.getRotation() == Surface.ROTATION_180)
-        {
-
-        }
-
-        if(display.getRotation() == Surface.ROTATION_270)
-        {
-
-            mCamera.setDisplayOrientation(180);
-
-        }
         try{
 
         refreshCamera(mCamera);
