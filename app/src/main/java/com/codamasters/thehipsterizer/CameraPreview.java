@@ -125,8 +125,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			Camera.Parameters params = mCamera.getParameters();
 			params.setColorEffect(currentFilter);
             params.setFlashMode(currentFlash);
-            params.setPictureSize(100,100);
-            params.setPreviewSize(100,100);
             mCamera.setParameters(params);
 			mCamera.startPreview();
 

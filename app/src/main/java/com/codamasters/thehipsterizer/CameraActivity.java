@@ -10,14 +10,21 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +54,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
@@ -79,7 +87,8 @@ public class CameraActivity extends ActionBarActivity {
     private final int FLASH_ON = 1;
     private final int FLASH_OFF = 2;
     private int flashState = FLASH_OFF;
-    private String actualFilter = Camera.Parameters.EFFECT_NONE;
+    private GPUImageFilter actualFilter;
+    private String currentFilter;
     private GPUImageView view;
     private Matrix matrix;
     private Bitmap auxImage;
@@ -105,7 +114,7 @@ public class CameraActivity extends ActionBarActivity {
         //buttonsLayout.bringToFront();
         initialize();
         mPreview.setWillNotDraw(false);
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.getMainLooper());
 
 
     }
@@ -297,116 +306,135 @@ public class CameraActivity extends ActionBarActivity {
     }
 
     public void filterNashville(View v) {
+        currentFilter = "nashville";
         mPreview.setActualFilter( new IFNashvilleFilter(this) );
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filter1977(View v) {
+        currentFilter = "1977";
         mPreview.setActualFilter( new IF1977Filter(this) );
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterValencia(View v) {
-         mPreview.setActualFilter(new IFValenciaFilter(this));
+        currentFilter = "valencia";
+        mPreview.setActualFilter(new IFValenciaFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterAmaro(View v) {
-         mPreview.setActualFilter (new IFAmaroFilter(this));
+        currentFilter = "amaro";
+        mPreview.setActualFilter (new IFAmaroFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterBrannan(View v) {
-         mPreview.setActualFilter (new IFBrannanFilter(this));
+        currentFilter = "brannan";
+        mPreview.setActualFilter (new IFBrannanFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterEarlyBird(View v) {
-         mPreview.setActualFilter (new IFEarlybirdFilter(this));
+        currentFilter = "earlybird";
+        mPreview.setActualFilter (new IFEarlybirdFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterHefe(View v) {
-         mPreview.setActualFilter (new IFHefeFilter(this));
+        currentFilter = "hefe";
+        mPreview.setActualFilter (new IFHefeFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterHudson(View v) {
-         mPreview.setActualFilter (new IFHudsonFilter(this));
+        currentFilter = "hudson";
+        mPreview.setActualFilter (new IFHudsonFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterInkwell(View v) {
-         mPreview.setActualFilter (new IFInkwellFilter(this));
+        currentFilter = "inkwell";
+        mPreview.setActualFilter (new IFInkwellFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterLomofi(View v) {
-         mPreview.setActualFilter (new IFLomofiFilter(this));
+        currentFilter = "lomofi";
+        mPreview.setActualFilter (new IFLomofiFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterLordKelvin(View v) {
-         mPreview.setActualFilter(new IFLordKelvinFilter(this));
+        currentFilter = "lordkelvin";
+        mPreview.setActualFilter(new IFLordKelvinFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterNormal(View v) {
-         mPreview.setActualFilter(new IFNormalFilter(this));
+        currentFilter = "normal";
+        mPreview.setActualFilter(new IFNormalFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
     }
 
     public void filterRise(View v) {
-         mPreview.setActualFilter(new IFRiseFilter(this));
+        currentFilter = "rise";
+        mPreview.setActualFilter(new IFRiseFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterSierra(View v) {
-         mPreview.setActualFilter(new IFSierraFilter(this));
+        currentFilter = "sierra";
+        mPreview.setActualFilter(new IFSierraFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterSutro(View v) {
-         mPreview.setActualFilter(new IFSutroFilter(this));
+        currentFilter = "sutro";
+        mPreview.setActualFilter(new IFSutroFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterToaster(View v) {
-         mPreview.setActualFilter(new IFToasterFilter(this));
+        currentFilter = "toaster";
+        mPreview.setActualFilter(new IFToasterFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterWalden(View v) {
-         mPreview.setActualFilter(new IFWaldenFilter(this));
+        currentFilter = "walden";
+        mPreview.setActualFilter(new IFWaldenFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterXproll(View v) {
-         mPreview.setActualFilter(new IFXproIIFilter(this));
+        currentFilter = "xproll";
+        mPreview.setActualFilter(new IFXproIIFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     public void filterHaze(View v) {
-         mPreview.setActualFilter(new GPUImageHazeFilter());
+        currentFilter = "haze";
+        mPreview.setActualFilter(new GPUImageHazeFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
@@ -570,16 +598,14 @@ public class CameraActivity extends ActionBarActivity {
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
+        super.onSaveInstanceState(outState);
+
         //---save whatever you need to persist—
 
-        //outState.putInt("sViewX",filtersScroll.getScrollX());
-        //outState.putInt("sViewY",filtersScroll.getScrollY());
         outState.putInt("cameraId", cameraId);
         outState.putBoolean("cameraFront", cameraFront);
         outState.putString("filePath", filePath);
-        outState.putString("actualFilter", actualFilter);
-
-        super.onSaveInstanceState(outState);
+        outState.putString("currentFilter", currentFilter);
 
     }
 
@@ -587,36 +613,86 @@ public class CameraActivity extends ActionBarActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        //sViewX = savedInstanceState.getInt("sViewX");
-        //sViewY = savedInstanceState.getInt("sViewY");
-        cameraId = savedInstanceState.getInt("cameraId");
-        cameraFront = savedInstanceState.getBoolean("cameraFront");
-        filePath = savedInstanceState.getString("filePath");
-        actualFilter = savedInstanceState.getString("actualFilter");
+        if (savedInstanceState != null) {
 
-        //filtersScroll.scrollTo(sViewX, sViewY);
-        releaseCamera();
-        mCamera = Camera.open(cameraId);
-        mPicture = getPictureCallback();
-        mPreview.refreshCamera(mCamera);
+            //sViewX = savedInstanceState.getInt("sViewX");
+            //sViewY = savedInstanceState.getInt("sViewY");
+            cameraId = savedInstanceState.getInt("cameraId");
+            cameraFront = savedInstanceState.getBoolean("cameraFront");
+            filePath = savedInstanceState.getString("filePath");
+            currentFilter = savedInstanceState.getString("currentFilter");
 
-        if (filePath != null) {
-            pictureFile = new File(filePath);
-            fileUri = Uri.fromFile(pictureFile);
-            GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
-            Bitmap bitmap = null;
-            try {
-                bitmap = getImageThumbnail.getThumbnail(fileUri, this);
 
-            } catch (FileNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+
+            //filtersScroll.scrollTo(sViewX, sViewY);
+            releaseCamera();
+            mCamera = Camera.open(cameraId);
+            mPicture = getPictureCallback();
+            mPreview.refreshCamera(mCamera);
+
+
+            switch (currentFilter){
+                case "nashville":   mPreview.setActualFilter(new IFNashvilleFilter(this));
+                    break;
+                case "1977"     :   mPreview.setActualFilter(new IF1977Filter(this));
+                    break;
+                case "valencia" :   mPreview.setActualFilter(new IFValenciaFilter(this));
+                    break;
+                case "amaro"    :   mPreview.setActualFilter(new IFAmaroFilter(this));
+                    break;
+                case "brannan"  :   mPreview.setActualFilter(new IFBrannanFilter(this));
+                    break;
+                case "earlybird":   mPreview.setActualFilter(new IFEarlybirdFilter(this));
+                    break;
+                case "hefe"     :   mPreview.setActualFilter(new IFHefeFilter(this));
+                    break;
+                case "hudson"   :   mPreview.setActualFilter(new IFHudsonFilter(this));
+                    break;
+                case "inkwell"  :   mPreview.setActualFilter(new IFInkwellFilter(this));
+                    break;
+                case "lomofi"   :   mPreview.setActualFilter(new IFLomofiFilter(this));
+                    break;
+                case "lordkelvin":  mPreview.setActualFilter(new IFLordKelvinFilter(this));
+                    break;
+                case "normal"   :   mPreview.setActualFilter(new IFNormalFilter(this));
+                    break;
+                case "rise"     :   mPreview.setActualFilter(new IFRiseFilter(this));
+                    break;
+                case "sierra"   :   mPreview.setActualFilter(new IFSierraFilter(this));
+                    break;
+                case "sutro"    :   mPreview.setActualFilter(new IFSutroFilter(this));
+                    break;
+                case "toaster"  :   mPreview.setActualFilter(new IFToasterFilter(this));
+                    break;
+                case "walden"   :   mPreview.setActualFilter(new IFWaldenFilter(this));
+                    break;
+                case "xproll"   :   mPreview.setActualFilter(new IFXproIIFilter(this));
+                    break;
+                case "haze"     :   mPreview.setActualFilter(new GPUImageHazeFilter());
+                    break;
+                default: mPreview.setActualFilter(null);
+                    break;
             }
 
-            capturedImage.setImageBitmap(bitmap);
+
+            if (filePath != null) {
+                pictureFile = new File(filePath);
+                fileUri = Uri.fromFile(pictureFile);
+                GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = getImageThumbnail.getThumbnail(fileUri, this);
+
+                } catch (FileNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+                capturedImage.setImageBitmap(bitmap);
+            }
         }
     }
 
