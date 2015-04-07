@@ -95,6 +95,7 @@ public class CameraActivity extends ActionBarActivity {
     private Bitmap auxImage;
     private ProgressBar progBar;
     private Handler mHandler;
+    private int _cameraId;
 
 
 
@@ -153,10 +154,25 @@ public class CameraActivity extends ActionBarActivity {
                     releaseCamera();
                     chooseCamera();
 
-                    mCamera.stopPreview();
+                    try {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
 
-                    mPreview.refreshCamera(mCamera);
-                    mCamera.startPreview();
+                                mPreview.refreshCamera(mCamera);
+
+                                if(_cameraId==1){
+                                    mPreview.setMatrix(180, 1);
+                                }
+
+                                //mPreview.configureCameraOrientation();
+
+
+                            }
+                        });
+                    } catch (Exception e) {
+                    e.printStackTrace();
+                    }
 
 
                 } else {
@@ -447,8 +463,8 @@ public class CameraActivity extends ActionBarActivity {
             if (cameraId >= 0) {
 
                 mCamera = Camera.open(cameraId);
-                matrix.postRotate(90);
-                mPreview.setMatrix(matrix, 0);
+                _cameraId = 0;
+                mPreview.setMatrix(0, 0);
                 mPicture = getPictureCallback();
 
 
@@ -458,9 +474,8 @@ public class CameraActivity extends ActionBarActivity {
             if (cameraId >= 0) {
 
                 mCamera = Camera.open(cameraId);
-                matrix.postRotate(-90);
-
-                mPreview.setMatrix(matrix,  1);
+                _cameraId = 1;
+                mPreview.setMatrix(0,  1);
                 mPicture = getPictureCallback();
 
 
