@@ -34,6 +34,6 @@
         android:layout_marginTop="51dp"
         android:autoText="false"
         android:text="The Hipsterizer"
-        android:textSize="50dp"
+        android:textSize="46dp"
         android:textColor="@color/abc_search_url_text_normal" />
 </RelativeLayout>

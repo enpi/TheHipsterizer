@@ -32,7 +32,7 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:background ="#00676767"
-        android:layout_marginLeft="520dp"
+        android:layout_alignParentRight="true"
         android:weightSum="1" >
 
         <RelativeLayout
@@ -107,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background ="#00676767"
-        android:layout_marginLeft="520dp"
+        android:layout_alignParentRight="true"
         android:id="@+id/menuFiltersLayout">
         <ScrollView
             android:layout_width="match_parent"

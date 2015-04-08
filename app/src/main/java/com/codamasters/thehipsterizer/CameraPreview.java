@@ -19,8 +19,10 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -50,7 +52,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Bitmap rotatedBitmap;
     private GPUImageFilter actualFilter;
     private int cameraId;
-    private int orient;
+    private OrientationEventListener mOrientationEventListener;
+    private int mOrientation =  -1;
+    private int gira=0;
+
+    private static final int ORIENTATION_PORTRAIT_NORMAL =  1;
+    private static final int ORIENTATION_PORTRAIT_INVERTED =  2;
+    private static final int ORIENTATION_LANDSCAPE_NORMAL =  3;
+    private static final int ORIENTATION_LANDSCAPE_INVERTED =  4;
+
+
 
     public void setActualFilter(GPUImageFilter actualFilter) {
         this.actualFilter = actualFilter;
@@ -61,6 +72,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void setMatrix(int degree, int cameraId) {
         matrix.postRotate(degree);
         this.cameraId = cameraId;
+
+        Log.d("ID CAMERA REAL", this.cameraId+"");
+
     }
 
 
@@ -78,6 +92,42 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         setWillNotDraw(false);
 
+        mOrientationEventListener = new OrientationEventListener(context, SensorManager.SENSOR_DELAY_NORMAL) {
+
+            @Override
+            public void onOrientationChanged(int orientation) {
+
+                // determine our orientation based on sensor response
+                int lastOrientation = mOrientation;
+
+                if (orientation >= 315 || orientation < 45) {
+                    if (mOrientation != ORIENTATION_PORTRAIT_NORMAL) {
+                        mOrientation = ORIENTATION_PORTRAIT_NORMAL;
+                    }
+                } else if (orientation < 315 && orientation >= 225) {
+                    if (mOrientation != ORIENTATION_LANDSCAPE_NORMAL) {
+                        mOrientation = ORIENTATION_LANDSCAPE_NORMAL;
+                    }
+                } else if (orientation < 225 && orientation >= 135) {
+                    if (mOrientation != ORIENTATION_PORTRAIT_INVERTED) {
+                        mOrientation = ORIENTATION_PORTRAIT_INVERTED;
+                    }
+                } else { // orientation <135 && orientation > 45
+                    if (mOrientation != ORIENTATION_LANDSCAPE_INVERTED) {
+                        mOrientation = ORIENTATION_LANDSCAPE_INVERTED;
+                    }
+                }
+
+                if (lastOrientation != mOrientation) {
+
+                    if(gira%2==1)
+                        setMatrix(180, cameraId);
+
+                    gira++;
+
+                }
+            }
+        };
     }
 
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -85,12 +135,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			// create the surface and start camera preview
 
             Log.d("Mensaje", "Superficie creada");
+            mOrientationEventListener.enable();
 
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
-
-            orient = display.getOrientation();
-
 
 
             if (mCamera == null) {
@@ -152,7 +200,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         Log.d("Mensaje", "Superficie cambiada");
 
-
         if (isPreviewRunning)
         {
             mCamera.stopPreview();
@@ -175,6 +222,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public void configureCameraOrientation(){
 
+        Log.d("ID CAMERA", cameraId+"");
+
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -184,14 +233,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         int angle;
         switch (display.getRotation()) {
             case Surface.ROTATION_0: // This is display orientation
-                if(cameraId==0) {
-                    angle = 90; // This is camera orientation
-                    matrix.postRotate(90);
-                }
-                else{
-                    angle=180;
+                angle = 90; // This is camera orientation
+                matrix.postRotate(90);
+
+                if(cameraId==1){
                     matrix.postRotate(180);
                 }
+
                 break;
             case Surface.ROTATION_90:
                 angle = 0;
@@ -207,20 +255,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 break;
             default:
                 angle = 90;
-                matrix.postRotate(0);
+                matrix.postRotate(90);
                 break;
         }
         Log.v("Girando camera", "angle: " + angle);
 
         mCamera.setDisplayOrientation(angle);
 
-
-        // En caso de girar 180 grados en un unico movimiento
-        /*
-        if(Math.abs(orient-display.getOrientation())>1 ){
-            matrix.postRotate(180);
-        }
-        orient=display.getOrientation();*/
     }
 
 	public void setCamera(Camera camera) {
@@ -239,7 +280,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		// TODO Auto-generated method stub
 		// mCamera.release();
         Log.d("Mensaje", "Superficie destruida");
-
+        mOrientationEventListener.disable();
 
     }
 
@@ -254,7 +295,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
                 try {
 
-                // Convert to JPG
                 previewSize = camera.getParameters().getPreviewSize();
 
                 yuvimage=new YuvImage(data, ImageFormat.NV21, previewSize.width, previewSize.height, null);

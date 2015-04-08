@@ -35,7 +35,7 @@
         android:layout_weight="7"
         android:layout_gravity="center"
         android:background ="#00676767"
-        android:layout_marginTop="425dp"
+        android:layout_alignParentBottom="true"
         android:id="@+id/buttonsLayout">
 
     <RelativeLayout
@@ -113,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="115dp"
         android:layout_weight="7"
-        android:layout_marginTop="410dp"
+        android:layout_alignParentBottom="true"
         android:background ="#00676767"
         android:id="@+id/menuFiltersLayout">
 

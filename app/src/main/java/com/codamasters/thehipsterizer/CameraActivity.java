@@ -98,8 +98,6 @@ public class CameraActivity extends ActionBarActivity {
     private int _cameraId;
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,22 +149,14 @@ public class CameraActivity extends ActionBarActivity {
                 int camerasNumber = Camera.getNumberOfCameras();
                 if (camerasNumber > 1) {
 
-                    releaseCamera();
-                    chooseCamera();
-
                     try {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
 
+                                releaseCamera();
+                                chooseCamera();
                                 mPreview.refreshCamera(mCamera);
-
-                                if(_cameraId==1){
-                                    mPreview.setMatrix(180, 1);
-                                }
-
-                                //mPreview.configureCameraOrientation();
-
 
                             }
                         });
@@ -242,6 +232,9 @@ public class CameraActivity extends ActionBarActivity {
 
     public void onResume() {
         super.onResume();
+
+        Log.d("OnResume", "LLAMANDO BROZORZIOOOOOOOOOOOO");
+
         if (!hasCamera(myContext)) {
             Toast toast = Toast.makeText(myContext, "Sorry, your phone does not have a camera!", Toast.LENGTH_LONG);
             toast.show();
@@ -251,9 +244,25 @@ public class CameraActivity extends ActionBarActivity {
             if (findFrontFacingCamera() < 0) {
                 Toast.makeText(this, "No front facing camera found.", Toast.LENGTH_LONG).show();
             }
+
+            setContentView(R.layout.activity_camera);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            myContext = this;
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            //actionBar.hide();
+            //RelativeLayout buttonsLayout = (RelativeLayout)findViewById(R.id.buttonsLayout);
+            //buttonsLayout.bringToFront();
+            initialize();
+            mPreview.setWillNotDraw(false);
+            mHandler = new Handler(Looper.getMainLooper());
+
             mCamera = Camera.open(findBackFacingCamera());
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);
+
         }
     }
 
@@ -464,7 +473,7 @@ public class CameraActivity extends ActionBarActivity {
 
                 mCamera = Camera.open(cameraId);
                 _cameraId = 0;
-                mPreview.setMatrix(0, 0);
+                mPreview.setMatrix(180, _cameraId);
                 mPicture = getPictureCallback();
 
 
@@ -475,7 +484,7 @@ public class CameraActivity extends ActionBarActivity {
 
                 mCamera = Camera.open(cameraId);
                 _cameraId = 1;
-                mPreview.setMatrix(0,  1);
+                mPreview.setMatrix(180, _cameraId);
                 mPicture = getPictureCallback();
 
 
@@ -598,12 +607,16 @@ public class CameraActivity extends ActionBarActivity {
         outState.putBoolean("cameraFront", cameraFront);
         outState.putString("filePath", filePath);
         outState.putString("currentFilter", currentFilter);
+        outState.putInt("cameraIdOrient", _cameraId);
 
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
+
+        Log.d("broza", "CAMBIANDO ACTIVIDAD");
 
         if (savedInstanceState != null) {
 
@@ -613,7 +626,7 @@ public class CameraActivity extends ActionBarActivity {
             cameraFront = savedInstanceState.getBoolean("cameraFront");
             filePath = savedInstanceState.getString("filePath");
             currentFilter = savedInstanceState.getString("currentFilter");
-
+            _cameraId = savedInstanceState.getInt("cameraIdOrient");
 
 
             //filtersScroll.scrollTo(sViewX, sViewY);
@@ -621,7 +634,7 @@ public class CameraActivity extends ActionBarActivity {
             mCamera = Camera.open(cameraId);
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);
-
+            mPreview.setMatrix(0,cameraId);
 
             switch (currentFilter){
                 case "nashville":   mPreview.setActualFilter(new IFNashvilleFilter(this));
