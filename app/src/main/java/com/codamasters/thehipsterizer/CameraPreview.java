@@ -69,7 +69,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public CameraPreview(Context context, Camera camera, GPUImageView view) {
 		super(context);
-        actualFilter = new IFNashvilleFilter(context);
         matrix = new Matrix();
         mCamera = camera;
 		mHolder = getHolder();
@@ -109,11 +108,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
                 if (lastOrientation != mOrientation) {
 
-                    if(gira%2==1)
-                        setMatrix(180, cameraId);
-
-                    gira++;
-
+                        if(gira%2==1){
+                            setMatrix(180, cameraId);
+                        }
                 }
             }
         };

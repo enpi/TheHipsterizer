@@ -41,6 +41,10 @@ import java.util.Date;
 
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageKuwaharaFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageSwirlFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 
@@ -288,6 +292,10 @@ public class CameraActivity extends ActionBarActivity {
 
 
     public void filterNone(View v){
+        currentFilter = "none";
+        mPreview.setActualFilter( new NoneFilter(this) );
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
 
     }
 
@@ -424,6 +432,21 @@ public class CameraActivity extends ActionBarActivity {
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
     }
+
+    public void filterSketch(View v) {
+        currentFilter = "sketch";
+        mPreview.setActualFilter(new GPUImageSketchFilter());
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void filterToon(View v) {
+        currentFilter = "sketch";
+        mPreview.setActualFilter(new GPUImageToonFilter());
+        menuFiltersLayout.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.VISIBLE);
+    }
+
 
     OnClickListener filtersListener = new OnClickListener() {
         @Override
