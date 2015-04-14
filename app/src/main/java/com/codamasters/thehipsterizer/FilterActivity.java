@@ -93,11 +93,17 @@ public class FilterActivity extends ActionBarActivity {
     }
 
     public void pickImage() {
+        /*
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
+        */
+        Intent galleryIntent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent , REQ_CODE_PICK_IMAGE );
     }
 
     @Override

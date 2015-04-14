@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initalize(){
-        
+
         cameraMode.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
