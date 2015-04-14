@@ -106,14 +106,22 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                     }
                 }
 
+
                 if (lastOrientation != mOrientation) {
 
-                        if(gira%2==1){
-                            setMatrix(180, cameraId);
-                        }
+                                if(mOrientation == ORIENTATION_LANDSCAPE_INVERTED || mOrientation == ORIENTATION_LANDSCAPE_NORMAL) {
+                                    if (gira%2==1) {
+                                        Log.d("Camara", "Invirtiendo camara");
+                                        setMatrix(180, cameraId);
+                                    }
+                                    gira++;
+                                }
+
                 }
             }
         };
+
+
     }
 
 	public void surfaceCreated(SurfaceHolder holder) {

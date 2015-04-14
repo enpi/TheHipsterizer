@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -258,13 +260,31 @@ public class CameraActivity extends ActionBarActivity {
         cameraPreview = (LinearLayout) findViewById(R.id.camera_preview);
         view = (GPUImageView) findViewById(R.id.live_filter_view);
 
-
         mPreview = new CameraPreview(myContext, mCamera, view);
 
         cameraPreview.addView(mPreview);
 
         capture = (ImageButton) findViewById(R.id.button_capture);
         capture.setOnClickListener(captureListener);
+        capture.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        capture.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        capture.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        capture.getBackground().clearColorFilter();
+                        capture.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+
 
         filters = (LinearLayout) findViewById(R.id.button_filters);
         filters.setOnClickListener(filtersListener);
@@ -472,6 +492,7 @@ public class CameraActivity extends ActionBarActivity {
     };
 
 
+
     public void chooseCamera() {
 
         if (cameraFront) {
@@ -575,10 +596,38 @@ public class CameraActivity extends ActionBarActivity {
     OnClickListener captureListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+
             progBar.setVisibility(View.VISIBLE);
+
             mCamera.takePicture(null, null, mPicture);
+
         }
     };
+
+    public static void buttonEffect(View button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+
+                Log.d("Buton", "Presionando botonaco");
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");

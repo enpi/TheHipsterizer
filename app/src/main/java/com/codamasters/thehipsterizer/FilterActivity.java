@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -58,6 +59,7 @@ public class FilterActivity extends ActionBarActivity {
 
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
+
     private Bitmap auxImage;
     private Context context;
 
@@ -83,6 +85,7 @@ public class FilterActivity extends ActionBarActivity {
          * Explicit requested with the RENDERMODE_WHEN_DIRTY option
          */
         mEffectView = (GPUImageView) findViewById(R.id.image_preview);
+
 
         pickImage();
 
