@@ -696,6 +696,74 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/border_button"
+                android:padding="1dp"
+                android:onClick="filterSketch"
+                android:id="@+id/sktech" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/coffee" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#1D63A1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Sketch"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/border_button"
+                android:padding="1dp"
+                android:onClick="filterToon"
+                android:id="@+id/toon" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/coffee" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#1D63A1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Toon"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </HorizontalScrollView>
 

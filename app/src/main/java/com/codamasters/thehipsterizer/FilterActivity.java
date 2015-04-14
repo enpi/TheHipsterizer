@@ -47,8 +47,11 @@ import jp.co.cyberagent.android.gpuimage.GPUImageBrightnessFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageCrosshatchFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImagePixelationFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageRGBDilationFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageSobelEdgeDetection;
+import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 
@@ -138,7 +141,7 @@ public class FilterActivity extends ActionBarActivity {
     }
 
     public void filterNone(View v){
-
+        mEffectView.setFilter(new GPUImageBrightnessFilter(0.0f));
     }
 
     public void filterNashville(View v) {
@@ -215,6 +218,14 @@ public class FilterActivity extends ActionBarActivity {
 
     public void filterHaze(View v) {
         mEffectView.setFilter(new GPUImageHazeFilter());
+    }
+
+    public void filterSketch(View v){
+        mEffectView.setFilter(new GPUImageSketchFilter());
+    }
+
+    public void filterToon(View v){
+        mEffectView.setFilter(new GPUImageToonFilter());
     }
 
     // Create menu
